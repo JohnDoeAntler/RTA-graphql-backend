@@ -1,0 +1,7 @@
+node_modules
+dist
+database.sqlite
+yarn.lock
+tsconfig.json
+package-lock.json
+.vscode/settings.json
