@@ -1,9 +1,9 @@
 import { Field, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Work } from './Work';
 
-@ObjectType()
 @Entity()
+@ObjectType()
 export class Category extends BaseEntity {
 
 	//
@@ -31,11 +31,11 @@ export class Category extends BaseEntity {
 	//
 
 	@Field()
-	@Column()
+	@CreateDateColumn()
 	public createdAt: Date;
 
 	@Field()
-	@Column()
+	@UpdateDateColumn()
 	public updatedAt: Date;
 
 	//
