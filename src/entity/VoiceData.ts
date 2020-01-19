@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Work } from './Work';
 
-@ObjectType()
 @Entity()
+@ObjectType()
 export class VoiceData extends BaseEntity {
 
 	//
@@ -26,10 +26,14 @@ export class VoiceData extends BaseEntity {
 	// ─── MANY TO ONE ────────────────────────────────────────────────────────────────
 	//
 
-	@ManyToOne(() => Work, (work) => work.voiceData)
+	@ManyToOne(() => Work, (work) => work.voiceData, { nullable: false, onDelete: 'CASCADE', onUpdate: 'RESTRICT' })
+	@JoinColumn({
+		name: 'workId',
+	})
 	public work: Work;
 
 	@Field()
+	@Column()
 	public workId: string;
 
 	//
@@ -37,11 +41,11 @@ export class VoiceData extends BaseEntity {
 	//
 
 	@Field()
-	@Column()
+	@CreateDateColumn()
 	public createdAt: Date;
 
 	@Field()
-	@Column()
+	@UpdateDateColumn()
 	public updatedAt: Date;
 
 }

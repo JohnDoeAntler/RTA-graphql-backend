@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './User';
 
-@ObjectType()
 @Entity()
+@ObjectType()
 export class Role extends BaseEntity {
 
 	//
@@ -27,11 +27,11 @@ export class Role extends BaseEntity {
 	//
 
 	@Field()
-	@Column()
+	@CreateDateColumn()
 	public createdAt: Date;
 
 	@Field()
-	@Column()
+	@UpdateDateColumn()
 	public updatedAt: Date;
 
 	//

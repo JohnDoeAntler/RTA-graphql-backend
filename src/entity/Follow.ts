@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from './User';
 
-@ObjectType()
 @Entity()
+@ObjectType()
 export class Follow extends BaseEntity {
 
 	//
@@ -18,16 +18,24 @@ export class Follow extends BaseEntity {
 	// ─── MANY TO ONE ────────────────────────────────────────────────────────────────
 	//
 
-	@ManyToOne(() => User, (user) => user.followings)
+	@ManyToOne(() => User, (user) => user.followings, { nullable: false, onDelete: 'CASCADE', onUpdate: 'RESTRICT' })
+	@JoinColumn({
+		name: 'followingId',
+	})
 	public following: User;
 
 	@Field()
+	@Column()
 	public followingId: string;
 
-	@ManyToOne(() => User, (user) => user.followers)
+	@ManyToOne(() => User, (user) => user.followers, { nullable: false, onDelete: 'CASCADE', onUpdate: 'RESTRICT' })
+	@JoinColumn({
+		name: 'followerId',
+	})
 	public follower: User;
 
 	@Field()
+	@Column()
 	public followerId: string;
 
 	//
@@ -35,11 +43,11 @@ export class Follow extends BaseEntity {
 	//
 
 	@Field()
-	@Column()
+	@CreateDateColumn()
 	public createdAt: Date;
 
 	@Field()
-	@Column()
+	@UpdateDateColumn()
 	public updatedAt: Date;
 
 }

@@ -1,5 +1,5 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Category } from './Category';
 import { Comment } from './Comment';
 import { Favourite } from './Favourite';
@@ -9,8 +9,8 @@ import { Report } from './Report';
 import { User } from './User';
 import { VoiceData } from './VoiceData';
 
-@ObjectType()
 @Entity()
+@ObjectType()
 export class Work extends BaseEntity {
 
 	//
@@ -49,16 +49,24 @@ export class Work extends BaseEntity {
 	// ─── MANY TO ONE ────────────────────────────────────────────────────────────────
 	//
 
-	@ManyToOne(() => User, (user) => user.works)
+	@ManyToOne(() => User, (user) => user.works, { nullable: false, onDelete: 'CASCADE', onUpdate: 'RESTRICT' })
+	@JoinColumn({
+		name: 'userId',
+	})
 	public user: User;
 
 	@Field()
+	@Column()
 	public userId: string;
 
-	@ManyToOne(() => Category, (category) => category.works)
+	@ManyToOne(() => Category, (category) => category.works, { nullable: false, onDelete: 'CASCADE', onUpdate: 'RESTRICT' })
+	@JoinColumn({
+		name: 'categoryId',
+	})
 	public category: string;
 
 	@Field()
+	@Column()
 	public categoryId: string;
 
 	//
@@ -66,11 +74,11 @@ export class Work extends BaseEntity {
 	//
 
 	@Field()
-	@Column()
+	@CreateDateColumn()
 	public createdAt: Date;
 
 	@Field()
-	@Column()
+	@UpdateDateColumn()
 	public updatedAt: Date;
 
 	//
@@ -90,7 +98,7 @@ export class Work extends BaseEntity {
 	public favourites: Favourite[];
 
 	@OneToMany(() => Comment, (comment) => comment.work)
-	public comments: Comment;
+	public comments: Comment[];
 
 	@OneToMany(() => Report, (report) => report.work)
 	public reports: Report[];

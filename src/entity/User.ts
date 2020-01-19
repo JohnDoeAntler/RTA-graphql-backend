@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Comment } from './Comment';
 import { Favourite } from './Favourite';
 import { Follow } from './Follow';
@@ -8,8 +8,8 @@ import { Report } from './Report';
 import { Role } from './Role';
 import { Work } from './Work';
 
-@ObjectType()
 @Entity()
+@ObjectType()
 export class User extends BaseEntity {
 
 	//
@@ -36,10 +36,14 @@ export class User extends BaseEntity {
 	// ─── MANY TO ONE ────────────────────────────────────────────────────────────────
 	//
 
-	@ManyToOne(() => Role, (role) => role.users)
+	@ManyToOne(() => Role, (role) => role.users, { nullable: false, onDelete: 'CASCADE', onUpdate: 'RESTRICT' })
+	@JoinColumn({
+		name: 'roleId',
+	})
 	public role: Role;
 
 	@Field()
+	@Column()
 	public roleId: string;
 
 	//
@@ -47,11 +51,11 @@ export class User extends BaseEntity {
 	//
 
 	@Field()
-	@Column()
+	@CreateDateColumn()
 	public createdAt: Date;
 
 	@Field()
-	@Column()
+	@UpdateDateColumn()
 	public updatedAt: Date;
 
 	//
