@@ -12,7 +12,9 @@
         "indent": [
             true,
             "tabs"
-        ]
+        ],
+        "max-line-length" : false,
+        "max-classes-per-file": false
     },
     "rulesDirectory": []
 }
