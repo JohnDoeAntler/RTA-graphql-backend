@@ -1,0 +1,4527 @@
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type AggregateCategory {
+  count: Int!
+}
+
+type AggregateComment {
+  count: Int!
+}
+
+type AggregateFavourite {
+  count: Int!
+}
+
+type AggregateFollow {
+  count: Int!
+}
+
+type AggregateImageData {
+  count: Int!
+}
+
+type AggregateLike {
+  count: Int!
+}
+
+type AggregateReport {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type AggregateVoiceData {
+  count: Int!
+}
+
+type AggregateWork {
+  count: Int!
+}
+
+type BatchPayload {
+  # The number of nodes that have been affected by the Batch operation.
+  count: Long!
+}
+
+type Category implements Node {
+  id: ID!
+  name: String!
+  works(
+    where: WorkWhereInput
+    orderBy: WorkOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Work!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type CategoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [CategoryEdge]!
+  aggregate: AggregateCategory!
+}
+
+input CategoryCreateInput {
+  id: ID
+  name: String!
+  works: WorkCreateManyWithoutCategoryInput
+}
+
+input CategoryCreateOneWithoutWorksInput {
+  create: CategoryCreateWithoutWorksInput
+  connect: CategoryWhereUniqueInput
+}
+
+input CategoryCreateWithoutWorksInput {
+  id: ID
+  name: String!
+}
+
+# An edge in a connection.
+type CategoryEdge {
+  # The item at the end of the edge.
+  node: Category!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum CategoryOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type CategoryPreviousValues {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type CategorySubscriptionPayload {
+  mutation: MutationType!
+  node: Category
+  updatedFields: [String!]
+  previousValues: CategoryPreviousValues
+}
+
+input CategorySubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [CategorySubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [CategorySubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [CategorySubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: CategoryWhereInput
+}
+
+input CategoryUpdateInput {
+  name: String
+  works: WorkUpdateManyWithoutCategoryInput
+}
+
+input CategoryUpdateManyMutationInput {
+  name: String
+}
+
+input CategoryUpdateOneRequiredWithoutWorksInput {
+  create: CategoryCreateWithoutWorksInput
+  connect: CategoryWhereUniqueInput
+  update: CategoryUpdateWithoutWorksDataInput
+  upsert: CategoryUpsertWithoutWorksInput
+}
+
+input CategoryUpdateWithoutWorksDataInput {
+  name: String
+}
+
+input CategoryUpsertWithoutWorksInput {
+  update: CategoryUpdateWithoutWorksDataInput!
+  create: CategoryCreateWithoutWorksInput!
+}
+
+input CategoryWhereInput {
+  # Logical AND on all given filters.
+  AND: [CategoryWhereInput!]
+  # Logical OR on all given filters.
+  OR: [CategoryWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [CategoryWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+  # All values that are not equal to given value.
+  name_not: String
+  # All values that are contained in given list.
+  name_in: [String!]
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+  # All values less than the given value.
+  name_lt: String
+  # All values less than or equal the given value.
+  name_lte: String
+  # All values greater than the given value.
+  name_gt: String
+  # All values greater than or equal the given value.
+  name_gte: String
+  # All values containing the given string.
+  name_contains: String
+  # All values not containing the given string.
+  name_not_contains: String
+  # All values starting with the given string.
+  name_starts_with: String
+  # All values not starting with the given string.
+  name_not_starts_with: String
+  # All values ending with the given string.
+  name_ends_with: String
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  works_every: WorkWhereInput
+  works_some: WorkWhereInput
+  works_none: WorkWhereInput
+}
+
+input CategoryWhereUniqueInput {
+  id: ID
+}
+
+type Comment implements Node {
+  id: ID!
+  content: String!
+  user: User!
+  work: Work!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type CommentConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [CommentEdge]!
+  aggregate: AggregateComment!
+}
+
+input CommentCreateInput {
+  id: ID
+  content: String!
+  user: UserCreateOneWithoutCommentsInput!
+  work: WorkCreateOneWithoutCommentsInput!
+}
+
+input CommentCreateManyWithoutUserInput {
+  create: [CommentCreateWithoutUserInput!]
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateManyWithoutWorkInput {
+  create: [CommentCreateWithoutWorkInput!]
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateWithoutUserInput {
+  id: ID
+  content: String!
+  work: WorkCreateOneWithoutCommentsInput!
+}
+
+input CommentCreateWithoutWorkInput {
+  id: ID
+  content: String!
+  user: UserCreateOneWithoutCommentsInput!
+}
+
+# An edge in a connection.
+type CommentEdge {
+  # The item at the end of the edge.
+  node: Comment!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum CommentOrderByInput {
+  id_ASC
+  id_DESC
+  content_ASC
+  content_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type CommentPreviousValues {
+  id: ID!
+  content: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CommentScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [CommentScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [CommentScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [CommentScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  content: String
+  # All values that are not equal to given value.
+  content_not: String
+  # All values that are contained in given list.
+  content_in: [String!]
+  # All values that are not contained in given list.
+  content_not_in: [String!]
+  # All values less than the given value.
+  content_lt: String
+  # All values less than or equal the given value.
+  content_lte: String
+  # All values greater than the given value.
+  content_gt: String
+  # All values greater than or equal the given value.
+  content_gte: String
+  # All values containing the given string.
+  content_contains: String
+  # All values not containing the given string.
+  content_not_contains: String
+  # All values starting with the given string.
+  content_starts_with: String
+  # All values not starting with the given string.
+  content_not_starts_with: String
+  # All values ending with the given string.
+  content_ends_with: String
+  # All values not ending with the given string.
+  content_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  node: Comment
+  updatedFields: [String!]
+  previousValues: CommentPreviousValues
+}
+
+input CommentSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [CommentSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [CommentSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [CommentSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: CommentWhereInput
+}
+
+input CommentUpdateInput {
+  content: String
+  user: UserUpdateOneRequiredWithoutCommentsInput
+  work: WorkUpdateOneRequiredWithoutCommentsInput
+}
+
+input CommentUpdateManyDataInput {
+  content: String
+}
+
+input CommentUpdateManyMutationInput {
+  content: String
+}
+
+input CommentUpdateManyWithoutUserInput {
+  create: [CommentCreateWithoutUserInput!]
+  connect: [CommentWhereUniqueInput!]
+  set: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [CommentUpdateManyWithWhereNestedInput!]
+  deleteMany: [CommentScalarWhereInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input CommentUpdateManyWithoutWorkInput {
+  create: [CommentCreateWithoutWorkInput!]
+  connect: [CommentWhereUniqueInput!]
+  set: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutWorkInput!]
+  updateMany: [CommentUpdateManyWithWhereNestedInput!]
+  deleteMany: [CommentScalarWhereInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutWorkInput!]
+}
+
+input CommentUpdateManyWithWhereNestedInput {
+  where: CommentScalarWhereInput!
+  data: CommentUpdateManyDataInput!
+}
+
+input CommentUpdateWithoutUserDataInput {
+  content: String
+  work: WorkUpdateOneRequiredWithoutCommentsInput
+}
+
+input CommentUpdateWithoutWorkDataInput {
+  content: String
+  user: UserUpdateOneRequiredWithoutCommentsInput
+}
+
+input CommentUpdateWithWhereUniqueWithoutUserInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutUserDataInput!
+}
+
+input CommentUpdateWithWhereUniqueWithoutWorkInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutWorkDataInput!
+}
+
+input CommentUpsertWithWhereUniqueWithoutUserInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutUserDataInput!
+  create: CommentCreateWithoutUserInput!
+}
+
+input CommentUpsertWithWhereUniqueWithoutWorkInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutWorkDataInput!
+  create: CommentCreateWithoutWorkInput!
+}
+
+input CommentWhereInput {
+  # Logical AND on all given filters.
+  AND: [CommentWhereInput!]
+  # Logical OR on all given filters.
+  OR: [CommentWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [CommentWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  content: String
+  # All values that are not equal to given value.
+  content_not: String
+  # All values that are contained in given list.
+  content_in: [String!]
+  # All values that are not contained in given list.
+  content_not_in: [String!]
+  # All values less than the given value.
+  content_lt: String
+  # All values less than or equal the given value.
+  content_lte: String
+  # All values greater than the given value.
+  content_gt: String
+  # All values greater than or equal the given value.
+  content_gte: String
+  # All values containing the given string.
+  content_contains: String
+  # All values not containing the given string.
+  content_not_contains: String
+  # All values starting with the given string.
+  content_starts_with: String
+  # All values not starting with the given string.
+  content_not_starts_with: String
+  # All values ending with the given string.
+  content_ends_with: String
+  # All values not ending with the given string.
+  content_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+  work: WorkWhereInput
+}
+
+input CommentWhereUniqueInput {
+  id: ID
+}
+
+scalar DateTime
+
+type Favourite implements Node {
+  id: ID!
+  user: User!
+  work: Work!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type FavouriteConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [FavouriteEdge]!
+  aggregate: AggregateFavourite!
+}
+
+input FavouriteCreateInput {
+  id: ID
+  user: UserCreateOneWithoutFavouritesInput!
+  work: WorkCreateOneWithoutFavouritesInput!
+}
+
+input FavouriteCreateManyWithoutUserInput {
+  create: [FavouriteCreateWithoutUserInput!]
+  connect: [FavouriteWhereUniqueInput!]
+}
+
+input FavouriteCreateManyWithoutWorkInput {
+  create: [FavouriteCreateWithoutWorkInput!]
+  connect: [FavouriteWhereUniqueInput!]
+}
+
+input FavouriteCreateWithoutUserInput {
+  id: ID
+  work: WorkCreateOneWithoutFavouritesInput!
+}
+
+input FavouriteCreateWithoutWorkInput {
+  id: ID
+  user: UserCreateOneWithoutFavouritesInput!
+}
+
+# An edge in a connection.
+type FavouriteEdge {
+  # The item at the end of the edge.
+  node: Favourite!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum FavouriteOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type FavouritePreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input FavouriteScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [FavouriteScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [FavouriteScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [FavouriteScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type FavouriteSubscriptionPayload {
+  mutation: MutationType!
+  node: Favourite
+  updatedFields: [String!]
+  previousValues: FavouritePreviousValues
+}
+
+input FavouriteSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [FavouriteSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [FavouriteSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [FavouriteSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: FavouriteWhereInput
+}
+
+input FavouriteUpdateInput {
+  user: UserUpdateOneRequiredWithoutFavouritesInput
+  work: WorkUpdateOneRequiredWithoutFavouritesInput
+}
+
+input FavouriteUpdateManyWithoutUserInput {
+  create: [FavouriteCreateWithoutUserInput!]
+  connect: [FavouriteWhereUniqueInput!]
+  set: [FavouriteWhereUniqueInput!]
+  disconnect: [FavouriteWhereUniqueInput!]
+  delete: [FavouriteWhereUniqueInput!]
+  update: [FavouriteUpdateWithWhereUniqueWithoutUserInput!]
+  deleteMany: [FavouriteScalarWhereInput!]
+  upsert: [FavouriteUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input FavouriteUpdateManyWithoutWorkInput {
+  create: [FavouriteCreateWithoutWorkInput!]
+  connect: [FavouriteWhereUniqueInput!]
+  set: [FavouriteWhereUniqueInput!]
+  disconnect: [FavouriteWhereUniqueInput!]
+  delete: [FavouriteWhereUniqueInput!]
+  update: [FavouriteUpdateWithWhereUniqueWithoutWorkInput!]
+  deleteMany: [FavouriteScalarWhereInput!]
+  upsert: [FavouriteUpsertWithWhereUniqueWithoutWorkInput!]
+}
+
+input FavouriteUpdateWithoutUserDataInput {
+  work: WorkUpdateOneRequiredWithoutFavouritesInput
+}
+
+input FavouriteUpdateWithoutWorkDataInput {
+  user: UserUpdateOneRequiredWithoutFavouritesInput
+}
+
+input FavouriteUpdateWithWhereUniqueWithoutUserInput {
+  where: FavouriteWhereUniqueInput!
+  data: FavouriteUpdateWithoutUserDataInput!
+}
+
+input FavouriteUpdateWithWhereUniqueWithoutWorkInput {
+  where: FavouriteWhereUniqueInput!
+  data: FavouriteUpdateWithoutWorkDataInput!
+}
+
+input FavouriteUpsertWithWhereUniqueWithoutUserInput {
+  where: FavouriteWhereUniqueInput!
+  update: FavouriteUpdateWithoutUserDataInput!
+  create: FavouriteCreateWithoutUserInput!
+}
+
+input FavouriteUpsertWithWhereUniqueWithoutWorkInput {
+  where: FavouriteWhereUniqueInput!
+  update: FavouriteUpdateWithoutWorkDataInput!
+  create: FavouriteCreateWithoutWorkInput!
+}
+
+input FavouriteWhereInput {
+  # Logical AND on all given filters.
+  AND: [FavouriteWhereInput!]
+  # Logical OR on all given filters.
+  OR: [FavouriteWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [FavouriteWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+  work: WorkWhereInput
+}
+
+input FavouriteWhereUniqueInput {
+  id: ID
+}
+
+type Follow implements Node {
+  id: ID!
+  following: User!
+  followers: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type FollowConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [FollowEdge]!
+  aggregate: AggregateFollow!
+}
+
+input FollowCreateInput {
+  id: ID
+  following: UserCreateOneWithoutFollowingInput!
+  followers: UserCreateOneWithoutFollowersInput!
+}
+
+input FollowCreateManyWithoutFollowersInput {
+  create: [FollowCreateWithoutFollowersInput!]
+  connect: [FollowWhereUniqueInput!]
+}
+
+input FollowCreateManyWithoutFollowingInput {
+  create: [FollowCreateWithoutFollowingInput!]
+  connect: [FollowWhereUniqueInput!]
+}
+
+input FollowCreateWithoutFollowersInput {
+  id: ID
+  following: UserCreateOneWithoutFollowingInput!
+}
+
+input FollowCreateWithoutFollowingInput {
+  id: ID
+  followers: UserCreateOneWithoutFollowersInput!
+}
+
+# An edge in a connection.
+type FollowEdge {
+  # The item at the end of the edge.
+  node: Follow!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum FollowOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type FollowPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input FollowScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [FollowScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [FollowScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [FollowScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type FollowSubscriptionPayload {
+  mutation: MutationType!
+  node: Follow
+  updatedFields: [String!]
+  previousValues: FollowPreviousValues
+}
+
+input FollowSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [FollowSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [FollowSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [FollowSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: FollowWhereInput
+}
+
+input FollowUpdateInput {
+  following: UserUpdateOneRequiredWithoutFollowingInput
+  followers: UserUpdateOneRequiredWithoutFollowersInput
+}
+
+input FollowUpdateManyWithoutFollowersInput {
+  create: [FollowCreateWithoutFollowersInput!]
+  connect: [FollowWhereUniqueInput!]
+  set: [FollowWhereUniqueInput!]
+  disconnect: [FollowWhereUniqueInput!]
+  delete: [FollowWhereUniqueInput!]
+  update: [FollowUpdateWithWhereUniqueWithoutFollowersInput!]
+  deleteMany: [FollowScalarWhereInput!]
+  upsert: [FollowUpsertWithWhereUniqueWithoutFollowersInput!]
+}
+
+input FollowUpdateManyWithoutFollowingInput {
+  create: [FollowCreateWithoutFollowingInput!]
+  connect: [FollowWhereUniqueInput!]
+  set: [FollowWhereUniqueInput!]
+  disconnect: [FollowWhereUniqueInput!]
+  delete: [FollowWhereUniqueInput!]
+  update: [FollowUpdateWithWhereUniqueWithoutFollowingInput!]
+  deleteMany: [FollowScalarWhereInput!]
+  upsert: [FollowUpsertWithWhereUniqueWithoutFollowingInput!]
+}
+
+input FollowUpdateWithoutFollowersDataInput {
+  following: UserUpdateOneRequiredWithoutFollowingInput
+}
+
+input FollowUpdateWithoutFollowingDataInput {
+  followers: UserUpdateOneRequiredWithoutFollowersInput
+}
+
+input FollowUpdateWithWhereUniqueWithoutFollowersInput {
+  where: FollowWhereUniqueInput!
+  data: FollowUpdateWithoutFollowersDataInput!
+}
+
+input FollowUpdateWithWhereUniqueWithoutFollowingInput {
+  where: FollowWhereUniqueInput!
+  data: FollowUpdateWithoutFollowingDataInput!
+}
+
+input FollowUpsertWithWhereUniqueWithoutFollowersInput {
+  where: FollowWhereUniqueInput!
+  update: FollowUpdateWithoutFollowersDataInput!
+  create: FollowCreateWithoutFollowersInput!
+}
+
+input FollowUpsertWithWhereUniqueWithoutFollowingInput {
+  where: FollowWhereUniqueInput!
+  update: FollowUpdateWithoutFollowingDataInput!
+  create: FollowCreateWithoutFollowingInput!
+}
+
+input FollowWhereInput {
+  # Logical AND on all given filters.
+  AND: [FollowWhereInput!]
+  # Logical OR on all given filters.
+  OR: [FollowWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [FollowWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  following: UserWhereInput
+  followers: UserWhereInput
+}
+
+input FollowWhereUniqueInput {
+  id: ID
+}
+
+type ImageData implements Node {
+  id: ID!
+  fileUrl: String!
+  work: Work!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type ImageDataConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [ImageDataEdge]!
+  aggregate: AggregateImageData!
+}
+
+input ImageDataCreateInput {
+  id: ID
+  fileUrl: String!
+  work: WorkCreateOneWithoutImageDatasInput!
+}
+
+input ImageDataCreateManyWithoutWorkInput {
+  create: [ImageDataCreateWithoutWorkInput!]
+  connect: [ImageDataWhereUniqueInput!]
+}
+
+input ImageDataCreateWithoutWorkInput {
+  id: ID
+  fileUrl: String!
+}
+
+# An edge in a connection.
+type ImageDataEdge {
+  # The item at the end of the edge.
+  node: ImageData!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum ImageDataOrderByInput {
+  id_ASC
+  id_DESC
+  fileUrl_ASC
+  fileUrl_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ImageDataPreviousValues {
+  id: ID!
+  fileUrl: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input ImageDataScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [ImageDataScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [ImageDataScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [ImageDataScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  fileUrl: String
+  # All values that are not equal to given value.
+  fileUrl_not: String
+  # All values that are contained in given list.
+  fileUrl_in: [String!]
+  # All values that are not contained in given list.
+  fileUrl_not_in: [String!]
+  # All values less than the given value.
+  fileUrl_lt: String
+  # All values less than or equal the given value.
+  fileUrl_lte: String
+  # All values greater than the given value.
+  fileUrl_gt: String
+  # All values greater than or equal the given value.
+  fileUrl_gte: String
+  # All values containing the given string.
+  fileUrl_contains: String
+  # All values not containing the given string.
+  fileUrl_not_contains: String
+  # All values starting with the given string.
+  fileUrl_starts_with: String
+  # All values not starting with the given string.
+  fileUrl_not_starts_with: String
+  # All values ending with the given string.
+  fileUrl_ends_with: String
+  # All values not ending with the given string.
+  fileUrl_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type ImageDataSubscriptionPayload {
+  mutation: MutationType!
+  node: ImageData
+  updatedFields: [String!]
+  previousValues: ImageDataPreviousValues
+}
+
+input ImageDataSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [ImageDataSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [ImageDataSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [ImageDataSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: ImageDataWhereInput
+}
+
+input ImageDataUpdateInput {
+  fileUrl: String
+  work: WorkUpdateOneRequiredWithoutImageDatasInput
+}
+
+input ImageDataUpdateManyDataInput {
+  fileUrl: String
+}
+
+input ImageDataUpdateManyMutationInput {
+  fileUrl: String
+}
+
+input ImageDataUpdateManyWithoutWorkInput {
+  create: [ImageDataCreateWithoutWorkInput!]
+  connect: [ImageDataWhereUniqueInput!]
+  set: [ImageDataWhereUniqueInput!]
+  disconnect: [ImageDataWhereUniqueInput!]
+  delete: [ImageDataWhereUniqueInput!]
+  update: [ImageDataUpdateWithWhereUniqueWithoutWorkInput!]
+  updateMany: [ImageDataUpdateManyWithWhereNestedInput!]
+  deleteMany: [ImageDataScalarWhereInput!]
+  upsert: [ImageDataUpsertWithWhereUniqueWithoutWorkInput!]
+}
+
+input ImageDataUpdateManyWithWhereNestedInput {
+  where: ImageDataScalarWhereInput!
+  data: ImageDataUpdateManyDataInput!
+}
+
+input ImageDataUpdateWithoutWorkDataInput {
+  fileUrl: String
+}
+
+input ImageDataUpdateWithWhereUniqueWithoutWorkInput {
+  where: ImageDataWhereUniqueInput!
+  data: ImageDataUpdateWithoutWorkDataInput!
+}
+
+input ImageDataUpsertWithWhereUniqueWithoutWorkInput {
+  where: ImageDataWhereUniqueInput!
+  update: ImageDataUpdateWithoutWorkDataInput!
+  create: ImageDataCreateWithoutWorkInput!
+}
+
+input ImageDataWhereInput {
+  # Logical AND on all given filters.
+  AND: [ImageDataWhereInput!]
+  # Logical OR on all given filters.
+  OR: [ImageDataWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [ImageDataWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  fileUrl: String
+  # All values that are not equal to given value.
+  fileUrl_not: String
+  # All values that are contained in given list.
+  fileUrl_in: [String!]
+  # All values that are not contained in given list.
+  fileUrl_not_in: [String!]
+  # All values less than the given value.
+  fileUrl_lt: String
+  # All values less than or equal the given value.
+  fileUrl_lte: String
+  # All values greater than the given value.
+  fileUrl_gt: String
+  # All values greater than or equal the given value.
+  fileUrl_gte: String
+  # All values containing the given string.
+  fileUrl_contains: String
+  # All values not containing the given string.
+  fileUrl_not_contains: String
+  # All values starting with the given string.
+  fileUrl_starts_with: String
+  # All values not starting with the given string.
+  fileUrl_not_starts_with: String
+  # All values ending with the given string.
+  fileUrl_ends_with: String
+  # All values not ending with the given string.
+  fileUrl_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  work: WorkWhereInput
+}
+
+input ImageDataWhereUniqueInput {
+  id: ID
+}
+
+type Like implements Node {
+  id: ID!
+  user: User!
+  work: Work!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type LikeConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [LikeEdge]!
+  aggregate: AggregateLike!
+}
+
+input LikeCreateInput {
+  id: ID
+  user: UserCreateOneWithoutLikesInput!
+  work: WorkCreateOneWithoutLikesInput!
+}
+
+input LikeCreateManyWithoutUserInput {
+  create: [LikeCreateWithoutUserInput!]
+  connect: [LikeWhereUniqueInput!]
+}
+
+input LikeCreateManyWithoutWorkInput {
+  create: [LikeCreateWithoutWorkInput!]
+  connect: [LikeWhereUniqueInput!]
+}
+
+input LikeCreateWithoutUserInput {
+  id: ID
+  work: WorkCreateOneWithoutLikesInput!
+}
+
+input LikeCreateWithoutWorkInput {
+  id: ID
+  user: UserCreateOneWithoutLikesInput!
+}
+
+# An edge in a connection.
+type LikeEdge {
+  # The item at the end of the edge.
+  node: Like!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum LikeOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type LikePreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input LikeScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [LikeScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [LikeScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [LikeScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type LikeSubscriptionPayload {
+  mutation: MutationType!
+  node: Like
+  updatedFields: [String!]
+  previousValues: LikePreviousValues
+}
+
+input LikeSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [LikeSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [LikeSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [LikeSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: LikeWhereInput
+}
+
+input LikeUpdateInput {
+  user: UserUpdateOneRequiredWithoutLikesInput
+  work: WorkUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateManyWithoutUserInput {
+  create: [LikeCreateWithoutUserInput!]
+  connect: [LikeWhereUniqueInput!]
+  set: [LikeWhereUniqueInput!]
+  disconnect: [LikeWhereUniqueInput!]
+  delete: [LikeWhereUniqueInput!]
+  update: [LikeUpdateWithWhereUniqueWithoutUserInput!]
+  deleteMany: [LikeScalarWhereInput!]
+  upsert: [LikeUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input LikeUpdateManyWithoutWorkInput {
+  create: [LikeCreateWithoutWorkInput!]
+  connect: [LikeWhereUniqueInput!]
+  set: [LikeWhereUniqueInput!]
+  disconnect: [LikeWhereUniqueInput!]
+  delete: [LikeWhereUniqueInput!]
+  update: [LikeUpdateWithWhereUniqueWithoutWorkInput!]
+  deleteMany: [LikeScalarWhereInput!]
+  upsert: [LikeUpsertWithWhereUniqueWithoutWorkInput!]
+}
+
+input LikeUpdateWithoutUserDataInput {
+  work: WorkUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateWithoutWorkDataInput {
+  user: UserUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput!
+  data: LikeUpdateWithoutUserDataInput!
+}
+
+input LikeUpdateWithWhereUniqueWithoutWorkInput {
+  where: LikeWhereUniqueInput!
+  data: LikeUpdateWithoutWorkDataInput!
+}
+
+input LikeUpsertWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput!
+  update: LikeUpdateWithoutUserDataInput!
+  create: LikeCreateWithoutUserInput!
+}
+
+input LikeUpsertWithWhereUniqueWithoutWorkInput {
+  where: LikeWhereUniqueInput!
+  update: LikeUpdateWithoutWorkDataInput!
+  create: LikeCreateWithoutWorkInput!
+}
+
+input LikeWhereInput {
+  # Logical AND on all given filters.
+  AND: [LikeWhereInput!]
+  # Logical OR on all given filters.
+  OR: [LikeWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [LikeWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+  work: WorkWhereInput
+}
+
+input LikeWhereUniqueInput {
+  id: ID
+}
+
+scalar Long
+
+type Mutation {
+  createWork(data: WorkCreateInput!): Work!
+  createUser(data: UserCreateInput!): User!
+  createImageData(data: ImageDataCreateInput!): ImageData!
+  createVoiceData(data: VoiceDataCreateInput!): VoiceData!
+  createLike(data: LikeCreateInput!): Like!
+  createFavourite(data: FavouriteCreateInput!): Favourite!
+  createReport(data: ReportCreateInput!): Report!
+  createComment(data: CommentCreateInput!): Comment!
+  createFollow(data: FollowCreateInput!): Follow!
+  createCategory(data: CategoryCreateInput!): Category!
+  updateWork(data: WorkUpdateInput!, where: WorkWhereUniqueInput!): Work
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateImageData(
+    data: ImageDataUpdateInput!
+    where: ImageDataWhereUniqueInput!
+  ): ImageData
+  updateVoiceData(
+    data: VoiceDataUpdateInput!
+    where: VoiceDataWhereUniqueInput!
+  ): VoiceData
+  updateLike(data: LikeUpdateInput!, where: LikeWhereUniqueInput!): Like
+  updateFavourite(
+    data: FavouriteUpdateInput!
+    where: FavouriteWhereUniqueInput!
+  ): Favourite
+  updateReport(data: ReportUpdateInput!, where: ReportWhereUniqueInput!): Report
+  updateComment(
+    data: CommentUpdateInput!
+    where: CommentWhereUniqueInput!
+  ): Comment
+  updateFollow(data: FollowUpdateInput!, where: FollowWhereUniqueInput!): Follow
+  updateCategory(
+    data: CategoryUpdateInput!
+    where: CategoryWhereUniqueInput!
+  ): Category
+  deleteWork(where: WorkWhereUniqueInput!): Work
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteImageData(where: ImageDataWhereUniqueInput!): ImageData
+  deleteVoiceData(where: VoiceDataWhereUniqueInput!): VoiceData
+  deleteLike(where: LikeWhereUniqueInput!): Like
+  deleteFavourite(where: FavouriteWhereUniqueInput!): Favourite
+  deleteReport(where: ReportWhereUniqueInput!): Report
+  deleteComment(where: CommentWhereUniqueInput!): Comment
+  deleteFollow(where: FollowWhereUniqueInput!): Follow
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
+  upsertWork(
+    where: WorkWhereUniqueInput!
+    create: WorkCreateInput!
+    update: WorkUpdateInput!
+  ): Work!
+  upsertUser(
+    where: UserWhereUniqueInput!
+    create: UserCreateInput!
+    update: UserUpdateInput!
+  ): User!
+  upsertImageData(
+    where: ImageDataWhereUniqueInput!
+    create: ImageDataCreateInput!
+    update: ImageDataUpdateInput!
+  ): ImageData!
+  upsertVoiceData(
+    where: VoiceDataWhereUniqueInput!
+    create: VoiceDataCreateInput!
+    update: VoiceDataUpdateInput!
+  ): VoiceData!
+  upsertLike(
+    where: LikeWhereUniqueInput!
+    create: LikeCreateInput!
+    update: LikeUpdateInput!
+  ): Like!
+  upsertFavourite(
+    where: FavouriteWhereUniqueInput!
+    create: FavouriteCreateInput!
+    update: FavouriteUpdateInput!
+  ): Favourite!
+  upsertReport(
+    where: ReportWhereUniqueInput!
+    create: ReportCreateInput!
+    update: ReportUpdateInput!
+  ): Report!
+  upsertComment(
+    where: CommentWhereUniqueInput!
+    create: CommentCreateInput!
+    update: CommentUpdateInput!
+  ): Comment!
+  upsertFollow(
+    where: FollowWhereUniqueInput!
+    create: FollowCreateInput!
+    update: FollowUpdateInput!
+  ): Follow!
+  upsertCategory(
+    where: CategoryWhereUniqueInput!
+    create: CategoryCreateInput!
+    update: CategoryUpdateInput!
+  ): Category!
+  updateManyWorks(
+    data: WorkUpdateManyMutationInput!
+    where: WorkWhereInput
+  ): BatchPayload!
+  updateManyUsers(
+    data: UserUpdateManyMutationInput!
+    where: UserWhereInput
+  ): BatchPayload!
+  updateManyImageDatas(
+    data: ImageDataUpdateManyMutationInput!
+    where: ImageDataWhereInput
+  ): BatchPayload!
+  updateManyVoiceDatas(
+    data: VoiceDataUpdateManyMutationInput!
+    where: VoiceDataWhereInput
+  ): BatchPayload!
+  updateManyReports(
+    data: ReportUpdateManyMutationInput!
+    where: ReportWhereInput
+  ): BatchPayload!
+  updateManyComments(
+    data: CommentUpdateManyMutationInput!
+    where: CommentWhereInput
+  ): BatchPayload!
+  updateManyCategories(
+    data: CategoryUpdateManyMutationInput!
+    where: CategoryWhereInput
+  ): BatchPayload!
+  deleteManyWorks(where: WorkWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyImageDatas(where: ImageDataWhereInput): BatchPayload!
+  deleteManyVoiceDatas(where: VoiceDataWhereInput): BatchPayload!
+  deleteManyLikes(where: LikeWhereInput): BatchPayload!
+  deleteManyFavourites(where: FavouriteWhereInput): BatchPayload!
+  deleteManyReports(where: ReportWhereInput): BatchPayload!
+  deleteManyComments(where: CommentWhereInput): BatchPayload!
+  deleteManyFollows(where: FollowWhereInput): BatchPayload!
+  deleteManyCategories(where: CategoryWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  works(
+    where: WorkWhereInput
+    orderBy: WorkOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Work]!
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User]!
+  imageDatas(
+    where: ImageDataWhereInput
+    orderBy: ImageDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [ImageData]!
+  voiceDatas(
+    where: VoiceDataWhereInput
+    orderBy: VoiceDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [VoiceData]!
+  likes(
+    where: LikeWhereInput
+    orderBy: LikeOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Like]!
+  favourites(
+    where: FavouriteWhereInput
+    orderBy: FavouriteOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Favourite]!
+  reports(
+    where: ReportWhereInput
+    orderBy: ReportOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Report]!
+  comments(
+    where: CommentWhereInput
+    orderBy: CommentOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Comment]!
+  follows(
+    where: FollowWhereInput
+    orderBy: FollowOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Follow]!
+  categories(
+    where: CategoryWhereInput
+    orderBy: CategoryOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Category]!
+  work(where: WorkWhereUniqueInput!): Work
+  user(where: UserWhereUniqueInput!): User
+  imageData(where: ImageDataWhereUniqueInput!): ImageData
+  voiceData(where: VoiceDataWhereUniqueInput!): VoiceData
+  like(where: LikeWhereUniqueInput!): Like
+  favourite(where: FavouriteWhereUniqueInput!): Favourite
+  report(where: ReportWhereUniqueInput!): Report
+  comment(where: CommentWhereUniqueInput!): Comment
+  follow(where: FollowWhereUniqueInput!): Follow
+  category(where: CategoryWhereUniqueInput!): Category
+  worksConnection(
+    where: WorkWhereInput
+    orderBy: WorkOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): WorkConnection!
+  usersConnection(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): UserConnection!
+  imageDatasConnection(
+    where: ImageDataWhereInput
+    orderBy: ImageDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): ImageDataConnection!
+  voiceDatasConnection(
+    where: VoiceDataWhereInput
+    orderBy: VoiceDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): VoiceDataConnection!
+  likesConnection(
+    where: LikeWhereInput
+    orderBy: LikeOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): LikeConnection!
+  favouritesConnection(
+    where: FavouriteWhereInput
+    orderBy: FavouriteOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): FavouriteConnection!
+  reportsConnection(
+    where: ReportWhereInput
+    orderBy: ReportOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): ReportConnection!
+  commentsConnection(
+    where: CommentWhereInput
+    orderBy: CommentOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): CommentConnection!
+  followsConnection(
+    where: FollowWhereInput
+    orderBy: FollowOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): FollowConnection!
+  categoriesConnection(
+    where: CategoryWhereInput
+    orderBy: CategoryOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): CategoryConnection!
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+type Report implements Node {
+  id: ID!
+  reason: String!
+  user: User!
+  work: Work!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type ReportConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [ReportEdge]!
+  aggregate: AggregateReport!
+}
+
+input ReportCreateInput {
+  id: ID
+  reason: String!
+  user: UserCreateOneWithoutReportsInput!
+  work: WorkCreateOneWithoutReportsInput!
+}
+
+input ReportCreateManyWithoutUserInput {
+  create: [ReportCreateWithoutUserInput!]
+  connect: [ReportWhereUniqueInput!]
+}
+
+input ReportCreateManyWithoutWorkInput {
+  create: [ReportCreateWithoutWorkInput!]
+  connect: [ReportWhereUniqueInput!]
+}
+
+input ReportCreateWithoutUserInput {
+  id: ID
+  reason: String!
+  work: WorkCreateOneWithoutReportsInput!
+}
+
+input ReportCreateWithoutWorkInput {
+  id: ID
+  reason: String!
+  user: UserCreateOneWithoutReportsInput!
+}
+
+# An edge in a connection.
+type ReportEdge {
+  # The item at the end of the edge.
+  node: Report!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum ReportOrderByInput {
+  id_ASC
+  id_DESC
+  reason_ASC
+  reason_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ReportPreviousValues {
+  id: ID!
+  reason: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input ReportScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [ReportScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [ReportScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [ReportScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  reason: String
+  # All values that are not equal to given value.
+  reason_not: String
+  # All values that are contained in given list.
+  reason_in: [String!]
+  # All values that are not contained in given list.
+  reason_not_in: [String!]
+  # All values less than the given value.
+  reason_lt: String
+  # All values less than or equal the given value.
+  reason_lte: String
+  # All values greater than the given value.
+  reason_gt: String
+  # All values greater than or equal the given value.
+  reason_gte: String
+  # All values containing the given string.
+  reason_contains: String
+  # All values not containing the given string.
+  reason_not_contains: String
+  # All values starting with the given string.
+  reason_starts_with: String
+  # All values not starting with the given string.
+  reason_not_starts_with: String
+  # All values ending with the given string.
+  reason_ends_with: String
+  # All values not ending with the given string.
+  reason_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type ReportSubscriptionPayload {
+  mutation: MutationType!
+  node: Report
+  updatedFields: [String!]
+  previousValues: ReportPreviousValues
+}
+
+input ReportSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [ReportSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [ReportSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [ReportSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: ReportWhereInput
+}
+
+input ReportUpdateInput {
+  reason: String
+  user: UserUpdateOneRequiredWithoutReportsInput
+  work: WorkUpdateOneRequiredWithoutReportsInput
+}
+
+input ReportUpdateManyDataInput {
+  reason: String
+}
+
+input ReportUpdateManyMutationInput {
+  reason: String
+}
+
+input ReportUpdateManyWithoutUserInput {
+  create: [ReportCreateWithoutUserInput!]
+  connect: [ReportWhereUniqueInput!]
+  set: [ReportWhereUniqueInput!]
+  disconnect: [ReportWhereUniqueInput!]
+  delete: [ReportWhereUniqueInput!]
+  update: [ReportUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [ReportUpdateManyWithWhereNestedInput!]
+  deleteMany: [ReportScalarWhereInput!]
+  upsert: [ReportUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input ReportUpdateManyWithoutWorkInput {
+  create: [ReportCreateWithoutWorkInput!]
+  connect: [ReportWhereUniqueInput!]
+  set: [ReportWhereUniqueInput!]
+  disconnect: [ReportWhereUniqueInput!]
+  delete: [ReportWhereUniqueInput!]
+  update: [ReportUpdateWithWhereUniqueWithoutWorkInput!]
+  updateMany: [ReportUpdateManyWithWhereNestedInput!]
+  deleteMany: [ReportScalarWhereInput!]
+  upsert: [ReportUpsertWithWhereUniqueWithoutWorkInput!]
+}
+
+input ReportUpdateManyWithWhereNestedInput {
+  where: ReportScalarWhereInput!
+  data: ReportUpdateManyDataInput!
+}
+
+input ReportUpdateWithoutUserDataInput {
+  reason: String
+  work: WorkUpdateOneRequiredWithoutReportsInput
+}
+
+input ReportUpdateWithoutWorkDataInput {
+  reason: String
+  user: UserUpdateOneRequiredWithoutReportsInput
+}
+
+input ReportUpdateWithWhereUniqueWithoutUserInput {
+  where: ReportWhereUniqueInput!
+  data: ReportUpdateWithoutUserDataInput!
+}
+
+input ReportUpdateWithWhereUniqueWithoutWorkInput {
+  where: ReportWhereUniqueInput!
+  data: ReportUpdateWithoutWorkDataInput!
+}
+
+input ReportUpsertWithWhereUniqueWithoutUserInput {
+  where: ReportWhereUniqueInput!
+  update: ReportUpdateWithoutUserDataInput!
+  create: ReportCreateWithoutUserInput!
+}
+
+input ReportUpsertWithWhereUniqueWithoutWorkInput {
+  where: ReportWhereUniqueInput!
+  update: ReportUpdateWithoutWorkDataInput!
+  create: ReportCreateWithoutWorkInput!
+}
+
+input ReportWhereInput {
+  # Logical AND on all given filters.
+  AND: [ReportWhereInput!]
+  # Logical OR on all given filters.
+  OR: [ReportWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [ReportWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  reason: String
+  # All values that are not equal to given value.
+  reason_not: String
+  # All values that are contained in given list.
+  reason_in: [String!]
+  # All values that are not contained in given list.
+  reason_not_in: [String!]
+  # All values less than the given value.
+  reason_lt: String
+  # All values less than or equal the given value.
+  reason_lte: String
+  # All values greater than the given value.
+  reason_gt: String
+  # All values greater than or equal the given value.
+  reason_gte: String
+  # All values containing the given string.
+  reason_contains: String
+  # All values not containing the given string.
+  reason_not_contains: String
+  # All values starting with the given string.
+  reason_starts_with: String
+  # All values not starting with the given string.
+  reason_not_starts_with: String
+  # All values ending with the given string.
+  reason_ends_with: String
+  # All values not ending with the given string.
+  reason_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+  work: WorkWhereInput
+}
+
+input ReportWhereUniqueInput {
+  id: ID
+}
+
+enum Role {
+  ADMIN
+  CARETAKER
+}
+
+type Subscription {
+  work(where: WorkSubscriptionWhereInput): WorkSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  imageData(
+    where: ImageDataSubscriptionWhereInput
+  ): ImageDataSubscriptionPayload
+  voiceData(
+    where: VoiceDataSubscriptionWhereInput
+  ): VoiceDataSubscriptionPayload
+  like(where: LikeSubscriptionWhereInput): LikeSubscriptionPayload
+  favourite(
+    where: FavouriteSubscriptionWhereInput
+  ): FavouriteSubscriptionPayload
+  report(where: ReportSubscriptionWhereInput): ReportSubscriptionPayload
+  comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
+  follow(where: FollowSubscriptionWhereInput): FollowSubscriptionPayload
+  category(where: CategorySubscriptionWhereInput): CategorySubscriptionPayload
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  email: String!
+  imageUrl: String!
+  role: Role!
+  works(
+    where: WorkWhereInput
+    orderBy: WorkOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Work!]
+  likes(
+    where: LikeWhereInput
+    orderBy: LikeOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Like!]
+  favourites(
+    where: FavouriteWhereInput
+    orderBy: FavouriteOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Favourite!]
+  reports(
+    where: ReportWhereInput
+    orderBy: ReportOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Report!]
+  comments(
+    where: CommentWhereInput
+    orderBy: CommentOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Comment!]
+  following(
+    where: FollowWhereInput
+    orderBy: FollowOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Follow!]
+  followers(
+    where: FollowWhereInput
+    orderBy: FollowOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Follow!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type UserConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
+  favourites: FavouriteCreateManyWithoutUserInput
+  reports: ReportCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+  following: FollowCreateManyWithoutFollowingInput
+  followers: FollowCreateManyWithoutFollowersInput
+}
+
+input UserCreateOneWithoutCommentsInput {
+  create: UserCreateWithoutCommentsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutFavouritesInput {
+  create: UserCreateWithoutFavouritesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutFollowersInput {
+  create: UserCreateWithoutFollowersInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutFollowingInput {
+  create: UserCreateWithoutFollowingInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutLikesInput {
+  create: UserCreateWithoutLikesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutReportsInput {
+  create: UserCreateWithoutReportsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutWorksInput {
+  create: UserCreateWithoutWorksInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutCommentsInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
+  favourites: FavouriteCreateManyWithoutUserInput
+  reports: ReportCreateManyWithoutUserInput
+  following: FollowCreateManyWithoutFollowingInput
+  followers: FollowCreateManyWithoutFollowersInput
+}
+
+input UserCreateWithoutFavouritesInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
+  reports: ReportCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+  following: FollowCreateManyWithoutFollowingInput
+  followers: FollowCreateManyWithoutFollowersInput
+}
+
+input UserCreateWithoutFollowersInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
+  favourites: FavouriteCreateManyWithoutUserInput
+  reports: ReportCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+  following: FollowCreateManyWithoutFollowingInput
+}
+
+input UserCreateWithoutFollowingInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
+  favourites: FavouriteCreateManyWithoutUserInput
+  reports: ReportCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+  followers: FollowCreateManyWithoutFollowersInput
+}
+
+input UserCreateWithoutLikesInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  favourites: FavouriteCreateManyWithoutUserInput
+  reports: ReportCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+  following: FollowCreateManyWithoutFollowingInput
+  followers: FollowCreateManyWithoutFollowersInput
+}
+
+input UserCreateWithoutReportsInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
+  favourites: FavouriteCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+  following: FollowCreateManyWithoutFollowingInput
+  followers: FollowCreateManyWithoutFollowersInput
+}
+
+input UserCreateWithoutWorksInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  likes: LikeCreateManyWithoutUserInput
+  favourites: FavouriteCreateManyWithoutUserInput
+  reports: ReportCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+  following: FollowCreateManyWithoutFollowingInput
+  followers: FollowCreateManyWithoutFollowersInput
+}
+
+# An edge in a connection.
+type UserEdge {
+  # The item at the end of the edge.
+  node: User!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  imageUrl_ASC
+  imageUrl_DESC
+  role_ASC
+  role_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [UserSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [UserSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [UserSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
+  favourites: FavouriteUpdateManyWithoutUserInput
+  reports: ReportUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+  following: FollowUpdateManyWithoutFollowingInput
+  followers: FollowUpdateManyWithoutFollowersInput
+}
+
+input UserUpdateManyMutationInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+}
+
+input UserUpdateOneRequiredWithoutCommentsInput {
+  create: UserCreateWithoutCommentsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutCommentsDataInput
+  upsert: UserUpsertWithoutCommentsInput
+}
+
+input UserUpdateOneRequiredWithoutFavouritesInput {
+  create: UserCreateWithoutFavouritesInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutFavouritesDataInput
+  upsert: UserUpsertWithoutFavouritesInput
+}
+
+input UserUpdateOneRequiredWithoutFollowersInput {
+  create: UserCreateWithoutFollowersInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutFollowersDataInput
+  upsert: UserUpsertWithoutFollowersInput
+}
+
+input UserUpdateOneRequiredWithoutFollowingInput {
+  create: UserCreateWithoutFollowingInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutFollowingDataInput
+  upsert: UserUpsertWithoutFollowingInput
+}
+
+input UserUpdateOneRequiredWithoutLikesInput {
+  create: UserCreateWithoutLikesInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutLikesDataInput
+  upsert: UserUpsertWithoutLikesInput
+}
+
+input UserUpdateOneRequiredWithoutReportsInput {
+  create: UserCreateWithoutReportsInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutReportsDataInput
+  upsert: UserUpsertWithoutReportsInput
+}
+
+input UserUpdateOneRequiredWithoutWorksInput {
+  create: UserCreateWithoutWorksInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutWorksDataInput
+  upsert: UserUpsertWithoutWorksInput
+}
+
+input UserUpdateWithoutCommentsDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
+  favourites: FavouriteUpdateManyWithoutUserInput
+  reports: ReportUpdateManyWithoutUserInput
+  following: FollowUpdateManyWithoutFollowingInput
+  followers: FollowUpdateManyWithoutFollowersInput
+}
+
+input UserUpdateWithoutFavouritesDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
+  reports: ReportUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+  following: FollowUpdateManyWithoutFollowingInput
+  followers: FollowUpdateManyWithoutFollowersInput
+}
+
+input UserUpdateWithoutFollowersDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
+  favourites: FavouriteUpdateManyWithoutUserInput
+  reports: ReportUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+  following: FollowUpdateManyWithoutFollowingInput
+}
+
+input UserUpdateWithoutFollowingDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
+  favourites: FavouriteUpdateManyWithoutUserInput
+  reports: ReportUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+  followers: FollowUpdateManyWithoutFollowersInput
+}
+
+input UserUpdateWithoutLikesDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  favourites: FavouriteUpdateManyWithoutUserInput
+  reports: ReportUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+  following: FollowUpdateManyWithoutFollowingInput
+  followers: FollowUpdateManyWithoutFollowersInput
+}
+
+input UserUpdateWithoutReportsDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
+  favourites: FavouriteUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+  following: FollowUpdateManyWithoutFollowingInput
+  followers: FollowUpdateManyWithoutFollowersInput
+}
+
+input UserUpdateWithoutWorksDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  likes: LikeUpdateManyWithoutUserInput
+  favourites: FavouriteUpdateManyWithoutUserInput
+  reports: ReportUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+  following: FollowUpdateManyWithoutFollowingInput
+  followers: FollowUpdateManyWithoutFollowersInput
+}
+
+input UserUpsertWithoutCommentsInput {
+  update: UserUpdateWithoutCommentsDataInput!
+  create: UserCreateWithoutCommentsInput!
+}
+
+input UserUpsertWithoutFavouritesInput {
+  update: UserUpdateWithoutFavouritesDataInput!
+  create: UserCreateWithoutFavouritesInput!
+}
+
+input UserUpsertWithoutFollowersInput {
+  update: UserUpdateWithoutFollowersDataInput!
+  create: UserCreateWithoutFollowersInput!
+}
+
+input UserUpsertWithoutFollowingInput {
+  update: UserUpdateWithoutFollowingDataInput!
+  create: UserCreateWithoutFollowingInput!
+}
+
+input UserUpsertWithoutLikesInput {
+  update: UserUpdateWithoutLikesDataInput!
+  create: UserCreateWithoutLikesInput!
+}
+
+input UserUpsertWithoutReportsInput {
+  update: UserUpdateWithoutReportsDataInput!
+  create: UserCreateWithoutReportsInput!
+}
+
+input UserUpsertWithoutWorksInput {
+  update: UserUpdateWithoutWorksDataInput!
+  create: UserCreateWithoutWorksInput!
+}
+
+input UserWhereInput {
+  # Logical AND on all given filters.
+  AND: [UserWhereInput!]
+  # Logical OR on all given filters.
+  OR: [UserWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [UserWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+  # All values that are not equal to given value.
+  name_not: String
+  # All values that are contained in given list.
+  name_in: [String!]
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+  # All values less than the given value.
+  name_lt: String
+  # All values less than or equal the given value.
+  name_lte: String
+  # All values greater than the given value.
+  name_gt: String
+  # All values greater than or equal the given value.
+  name_gte: String
+  # All values containing the given string.
+  name_contains: String
+  # All values not containing the given string.
+  name_not_contains: String
+  # All values starting with the given string.
+  name_starts_with: String
+  # All values not starting with the given string.
+  name_not_starts_with: String
+  # All values ending with the given string.
+  name_ends_with: String
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  email: String
+  # All values that are not equal to given value.
+  email_not: String
+  # All values that are contained in given list.
+  email_in: [String!]
+  # All values that are not contained in given list.
+  email_not_in: [String!]
+  # All values less than the given value.
+  email_lt: String
+  # All values less than or equal the given value.
+  email_lte: String
+  # All values greater than the given value.
+  email_gt: String
+  # All values greater than or equal the given value.
+  email_gte: String
+  # All values containing the given string.
+  email_contains: String
+  # All values not containing the given string.
+  email_not_contains: String
+  # All values starting with the given string.
+  email_starts_with: String
+  # All values not starting with the given string.
+  email_not_starts_with: String
+  # All values ending with the given string.
+  email_ends_with: String
+  # All values not ending with the given string.
+  email_not_ends_with: String
+  password: String
+  # All values that are not equal to given value.
+  password_not: String
+  # All values that are contained in given list.
+  password_in: [String!]
+  # All values that are not contained in given list.
+  password_not_in: [String!]
+  # All values less than the given value.
+  password_lt: String
+  # All values less than or equal the given value.
+  password_lte: String
+  # All values greater than the given value.
+  password_gt: String
+  # All values greater than or equal the given value.
+  password_gte: String
+  # All values containing the given string.
+  password_contains: String
+  # All values not containing the given string.
+  password_not_contains: String
+  # All values starting with the given string.
+  password_starts_with: String
+  # All values not starting with the given string.
+  password_not_starts_with: String
+  # All values ending with the given string.
+  password_ends_with: String
+  # All values not ending with the given string.
+  password_not_ends_with: String
+  imageUrl: String
+  # All values that are not equal to given value.
+  imageUrl_not: String
+  # All values that are contained in given list.
+  imageUrl_in: [String!]
+  # All values that are not contained in given list.
+  imageUrl_not_in: [String!]
+  # All values less than the given value.
+  imageUrl_lt: String
+  # All values less than or equal the given value.
+  imageUrl_lte: String
+  # All values greater than the given value.
+  imageUrl_gt: String
+  # All values greater than or equal the given value.
+  imageUrl_gte: String
+  # All values containing the given string.
+  imageUrl_contains: String
+  # All values not containing the given string.
+  imageUrl_not_contains: String
+  # All values starting with the given string.
+  imageUrl_starts_with: String
+  # All values not starting with the given string.
+  imageUrl_not_starts_with: String
+  # All values ending with the given string.
+  imageUrl_ends_with: String
+  # All values not ending with the given string.
+  imageUrl_not_ends_with: String
+  role: Role
+  # All values that are not equal to given value.
+  role_not: Role
+  # All values that are contained in given list.
+  role_in: [Role!]
+  # All values that are not contained in given list.
+  role_not_in: [Role!]
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  works_every: WorkWhereInput
+  works_some: WorkWhereInput
+  works_none: WorkWhereInput
+  likes_every: LikeWhereInput
+  likes_some: LikeWhereInput
+  likes_none: LikeWhereInput
+  favourites_every: FavouriteWhereInput
+  favourites_some: FavouriteWhereInput
+  favourites_none: FavouriteWhereInput
+  reports_every: ReportWhereInput
+  reports_some: ReportWhereInput
+  reports_none: ReportWhereInput
+  comments_every: CommentWhereInput
+  comments_some: CommentWhereInput
+  comments_none: CommentWhereInput
+  following_every: FollowWhereInput
+  following_some: FollowWhereInput
+  following_none: FollowWhereInput
+  followers_every: FollowWhereInput
+  followers_some: FollowWhereInput
+  followers_none: FollowWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
+type VoiceData implements Node {
+  id: ID!
+  fileUrl: String!
+  work: Work!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type VoiceDataConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [VoiceDataEdge]!
+  aggregate: AggregateVoiceData!
+}
+
+input VoiceDataCreateInput {
+  id: ID
+  fileUrl: String!
+  work: WorkCreateOneWithoutVoiceDatasInput!
+}
+
+input VoiceDataCreateManyWithoutWorkInput {
+  create: [VoiceDataCreateWithoutWorkInput!]
+  connect: [VoiceDataWhereUniqueInput!]
+}
+
+input VoiceDataCreateWithoutWorkInput {
+  id: ID
+  fileUrl: String!
+}
+
+# An edge in a connection.
+type VoiceDataEdge {
+  # The item at the end of the edge.
+  node: VoiceData!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum VoiceDataOrderByInput {
+  id_ASC
+  id_DESC
+  fileUrl_ASC
+  fileUrl_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type VoiceDataPreviousValues {
+  id: ID!
+  fileUrl: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input VoiceDataScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [VoiceDataScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [VoiceDataScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [VoiceDataScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  fileUrl: String
+  # All values that are not equal to given value.
+  fileUrl_not: String
+  # All values that are contained in given list.
+  fileUrl_in: [String!]
+  # All values that are not contained in given list.
+  fileUrl_not_in: [String!]
+  # All values less than the given value.
+  fileUrl_lt: String
+  # All values less than or equal the given value.
+  fileUrl_lte: String
+  # All values greater than the given value.
+  fileUrl_gt: String
+  # All values greater than or equal the given value.
+  fileUrl_gte: String
+  # All values containing the given string.
+  fileUrl_contains: String
+  # All values not containing the given string.
+  fileUrl_not_contains: String
+  # All values starting with the given string.
+  fileUrl_starts_with: String
+  # All values not starting with the given string.
+  fileUrl_not_starts_with: String
+  # All values ending with the given string.
+  fileUrl_ends_with: String
+  # All values not ending with the given string.
+  fileUrl_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type VoiceDataSubscriptionPayload {
+  mutation: MutationType!
+  node: VoiceData
+  updatedFields: [String!]
+  previousValues: VoiceDataPreviousValues
+}
+
+input VoiceDataSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [VoiceDataSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [VoiceDataSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [VoiceDataSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: VoiceDataWhereInput
+}
+
+input VoiceDataUpdateInput {
+  fileUrl: String
+  work: WorkUpdateOneRequiredWithoutVoiceDatasInput
+}
+
+input VoiceDataUpdateManyDataInput {
+  fileUrl: String
+}
+
+input VoiceDataUpdateManyMutationInput {
+  fileUrl: String
+}
+
+input VoiceDataUpdateManyWithoutWorkInput {
+  create: [VoiceDataCreateWithoutWorkInput!]
+  connect: [VoiceDataWhereUniqueInput!]
+  set: [VoiceDataWhereUniqueInput!]
+  disconnect: [VoiceDataWhereUniqueInput!]
+  delete: [VoiceDataWhereUniqueInput!]
+  update: [VoiceDataUpdateWithWhereUniqueWithoutWorkInput!]
+  updateMany: [VoiceDataUpdateManyWithWhereNestedInput!]
+  deleteMany: [VoiceDataScalarWhereInput!]
+  upsert: [VoiceDataUpsertWithWhereUniqueWithoutWorkInput!]
+}
+
+input VoiceDataUpdateManyWithWhereNestedInput {
+  where: VoiceDataScalarWhereInput!
+  data: VoiceDataUpdateManyDataInput!
+}
+
+input VoiceDataUpdateWithoutWorkDataInput {
+  fileUrl: String
+}
+
+input VoiceDataUpdateWithWhereUniqueWithoutWorkInput {
+  where: VoiceDataWhereUniqueInput!
+  data: VoiceDataUpdateWithoutWorkDataInput!
+}
+
+input VoiceDataUpsertWithWhereUniqueWithoutWorkInput {
+  where: VoiceDataWhereUniqueInput!
+  update: VoiceDataUpdateWithoutWorkDataInput!
+  create: VoiceDataCreateWithoutWorkInput!
+}
+
+input VoiceDataWhereInput {
+  # Logical AND on all given filters.
+  AND: [VoiceDataWhereInput!]
+  # Logical OR on all given filters.
+  OR: [VoiceDataWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [VoiceDataWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  fileUrl: String
+  # All values that are not equal to given value.
+  fileUrl_not: String
+  # All values that are contained in given list.
+  fileUrl_in: [String!]
+  # All values that are not contained in given list.
+  fileUrl_not_in: [String!]
+  # All values less than the given value.
+  fileUrl_lt: String
+  # All values less than or equal the given value.
+  fileUrl_lte: String
+  # All values greater than the given value.
+  fileUrl_gt: String
+  # All values greater than or equal the given value.
+  fileUrl_gte: String
+  # All values containing the given string.
+  fileUrl_contains: String
+  # All values not containing the given string.
+  fileUrl_not_contains: String
+  # All values starting with the given string.
+  fileUrl_starts_with: String
+  # All values not starting with the given string.
+  fileUrl_not_starts_with: String
+  # All values ending with the given string.
+  fileUrl_ends_with: String
+  # All values not ending with the given string.
+  fileUrl_not_ends_with: String
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  work: WorkWhereInput
+}
+
+input VoiceDataWhereUniqueInput {
+  id: ID
+}
+
+type Work implements Node {
+  id: ID!
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: User!
+  category: Category!
+  imageDatas(
+    where: ImageDataWhereInput
+    orderBy: ImageDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [ImageData!]
+  voiceDatas(
+    where: VoiceDataWhereInput
+    orderBy: VoiceDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [VoiceData!]
+  likes(
+    where: LikeWhereInput
+    orderBy: LikeOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Like!]
+  favourites(
+    where: FavouriteWhereInput
+    orderBy: FavouriteOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Favourite!]
+  reports(
+    where: ReportWhereInput
+    orderBy: ReportOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Report!]
+  comments(
+    where: CommentWhereInput
+    orderBy: CommentOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Comment!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type WorkConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+  # A list of edges.
+  edges: [WorkEdge]!
+  aggregate: AggregateWork!
+}
+
+input WorkCreateInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+input WorkCreateManyWithoutCategoryInput {
+  create: [WorkCreateWithoutCategoryInput!]
+  connect: [WorkWhereUniqueInput!]
+}
+
+input WorkCreateManyWithoutUserInput {
+  create: [WorkCreateWithoutUserInput!]
+  connect: [WorkWhereUniqueInput!]
+}
+
+input WorkCreateOneWithoutCommentsInput {
+  create: WorkCreateWithoutCommentsInput
+  connect: WorkWhereUniqueInput
+}
+
+input WorkCreateOneWithoutFavouritesInput {
+  create: WorkCreateWithoutFavouritesInput
+  connect: WorkWhereUniqueInput
+}
+
+input WorkCreateOneWithoutImageDatasInput {
+  create: WorkCreateWithoutImageDatasInput
+  connect: WorkWhereUniqueInput
+}
+
+input WorkCreateOneWithoutLikesInput {
+  create: WorkCreateWithoutLikesInput
+  connect: WorkWhereUniqueInput
+}
+
+input WorkCreateOneWithoutReportsInput {
+  create: WorkCreateWithoutReportsInput
+  connect: WorkWhereUniqueInput
+}
+
+input WorkCreateOneWithoutVoiceDatasInput {
+  create: WorkCreateWithoutVoiceDatasInput
+  connect: WorkWhereUniqueInput
+}
+
+input WorkCreateWithoutCategoryInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutCommentsInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutFavouritesInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutImageDatasInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutLikesInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutReportsInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutUserInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutVoiceDatasInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  likes: LikeCreateManyWithoutWorkInput
+  favourites: FavouriteCreateManyWithoutWorkInput
+  reports: ReportCreateManyWithoutWorkInput
+  comments: CommentCreateManyWithoutWorkInput
+}
+
+# An edge in a connection.
+type WorkEdge {
+  # The item at the end of the edge.
+  node: Work!
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+enum WorkOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  visibility_ASC
+  visibility_DESC
+  views_ASC
+  views_DESC
+  usage_ASC
+  usage_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type WorkPreviousValues {
+  id: ID!
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input WorkScalarWhereInput {
+  # Logical AND on all given filters.
+  AND: [WorkScalarWhereInput!]
+  # Logical OR on all given filters.
+  OR: [WorkScalarWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [WorkScalarWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+  # All values that are not equal to given value.
+  name_not: String
+  # All values that are contained in given list.
+  name_in: [String!]
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+  # All values less than the given value.
+  name_lt: String
+  # All values less than or equal the given value.
+  name_lte: String
+  # All values greater than the given value.
+  name_gt: String
+  # All values greater than or equal the given value.
+  name_gte: String
+  # All values containing the given string.
+  name_contains: String
+  # All values not containing the given string.
+  name_not_contains: String
+  # All values starting with the given string.
+  name_starts_with: String
+  # All values not starting with the given string.
+  name_not_starts_with: String
+  # All values ending with the given string.
+  name_ends_with: String
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  description: String
+  # All values that are not equal to given value.
+  description_not: String
+  # All values that are contained in given list.
+  description_in: [String!]
+  # All values that are not contained in given list.
+  description_not_in: [String!]
+  # All values less than the given value.
+  description_lt: String
+  # All values less than or equal the given value.
+  description_lte: String
+  # All values greater than the given value.
+  description_gt: String
+  # All values greater than or equal the given value.
+  description_gte: String
+  # All values containing the given string.
+  description_contains: String
+  # All values not containing the given string.
+  description_not_contains: String
+  # All values starting with the given string.
+  description_starts_with: String
+  # All values not starting with the given string.
+  description_not_starts_with: String
+  # All values ending with the given string.
+  description_ends_with: String
+  # All values not ending with the given string.
+  description_not_ends_with: String
+  visibility: Boolean
+  # All values that are not equal to given value.
+  visibility_not: Boolean
+  views: Int
+  # All values that are not equal to given value.
+  views_not: Int
+  # All values that are contained in given list.
+  views_in: [Int!]
+  # All values that are not contained in given list.
+  views_not_in: [Int!]
+  # All values less than the given value.
+  views_lt: Int
+  # All values less than or equal the given value.
+  views_lte: Int
+  # All values greater than the given value.
+  views_gt: Int
+  # All values greater than or equal the given value.
+  views_gte: Int
+  usage: Int
+  # All values that are not equal to given value.
+  usage_not: Int
+  # All values that are contained in given list.
+  usage_in: [Int!]
+  # All values that are not contained in given list.
+  usage_not_in: [Int!]
+  # All values less than the given value.
+  usage_lt: Int
+  # All values less than or equal the given value.
+  usage_lte: Int
+  # All values greater than the given value.
+  usage_gt: Int
+  # All values greater than or equal the given value.
+  usage_gte: Int
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+}
+
+type WorkSubscriptionPayload {
+  mutation: MutationType!
+  node: Work
+  updatedFields: [String!]
+  previousValues: WorkPreviousValues
+}
+
+input WorkSubscriptionWhereInput {
+  # Logical AND on all given filters.
+  AND: [WorkSubscriptionWhereInput!]
+  # Logical OR on all given filters.
+  OR: [WorkSubscriptionWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [WorkSubscriptionWhereInput!]
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [MutationType!]
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: WorkWhereInput
+}
+
+input WorkUpdateInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateManyDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+}
+
+input WorkUpdateManyMutationInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+}
+
+input WorkUpdateManyWithoutCategoryInput {
+  create: [WorkCreateWithoutCategoryInput!]
+  connect: [WorkWhereUniqueInput!]
+  set: [WorkWhereUniqueInput!]
+  disconnect: [WorkWhereUniqueInput!]
+  delete: [WorkWhereUniqueInput!]
+  update: [WorkUpdateWithWhereUniqueWithoutCategoryInput!]
+  updateMany: [WorkUpdateManyWithWhereNestedInput!]
+  deleteMany: [WorkScalarWhereInput!]
+  upsert: [WorkUpsertWithWhereUniqueWithoutCategoryInput!]
+}
+
+input WorkUpdateManyWithoutUserInput {
+  create: [WorkCreateWithoutUserInput!]
+  connect: [WorkWhereUniqueInput!]
+  set: [WorkWhereUniqueInput!]
+  disconnect: [WorkWhereUniqueInput!]
+  delete: [WorkWhereUniqueInput!]
+  update: [WorkUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [WorkUpdateManyWithWhereNestedInput!]
+  deleteMany: [WorkScalarWhereInput!]
+  upsert: [WorkUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input WorkUpdateManyWithWhereNestedInput {
+  where: WorkScalarWhereInput!
+  data: WorkUpdateManyDataInput!
+}
+
+input WorkUpdateOneRequiredWithoutCommentsInput {
+  create: WorkCreateWithoutCommentsInput
+  connect: WorkWhereUniqueInput
+  update: WorkUpdateWithoutCommentsDataInput
+  upsert: WorkUpsertWithoutCommentsInput
+}
+
+input WorkUpdateOneRequiredWithoutFavouritesInput {
+  create: WorkCreateWithoutFavouritesInput
+  connect: WorkWhereUniqueInput
+  update: WorkUpdateWithoutFavouritesDataInput
+  upsert: WorkUpsertWithoutFavouritesInput
+}
+
+input WorkUpdateOneRequiredWithoutImageDatasInput {
+  create: WorkCreateWithoutImageDatasInput
+  connect: WorkWhereUniqueInput
+  update: WorkUpdateWithoutImageDatasDataInput
+  upsert: WorkUpsertWithoutImageDatasInput
+}
+
+input WorkUpdateOneRequiredWithoutLikesInput {
+  create: WorkCreateWithoutLikesInput
+  connect: WorkWhereUniqueInput
+  update: WorkUpdateWithoutLikesDataInput
+  upsert: WorkUpsertWithoutLikesInput
+}
+
+input WorkUpdateOneRequiredWithoutReportsInput {
+  create: WorkCreateWithoutReportsInput
+  connect: WorkWhereUniqueInput
+  update: WorkUpdateWithoutReportsDataInput
+  upsert: WorkUpsertWithoutReportsInput
+}
+
+input WorkUpdateOneRequiredWithoutVoiceDatasInput {
+  create: WorkCreateWithoutVoiceDatasInput
+  connect: WorkWhereUniqueInput
+  update: WorkUpdateWithoutVoiceDatasDataInput
+  upsert: WorkUpsertWithoutVoiceDatasInput
+}
+
+input WorkUpdateWithoutCategoryDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutCommentsDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutFavouritesDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutImageDatasDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutLikesDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutReportsDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutUserDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutVoiceDatasDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  likes: LikeUpdateManyWithoutWorkInput
+  favourites: FavouriteUpdateManyWithoutWorkInput
+  reports: ReportUpdateManyWithoutWorkInput
+  comments: CommentUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithWhereUniqueWithoutCategoryInput {
+  where: WorkWhereUniqueInput!
+  data: WorkUpdateWithoutCategoryDataInput!
+}
+
+input WorkUpdateWithWhereUniqueWithoutUserInput {
+  where: WorkWhereUniqueInput!
+  data: WorkUpdateWithoutUserDataInput!
+}
+
+input WorkUpsertWithoutCommentsInput {
+  update: WorkUpdateWithoutCommentsDataInput!
+  create: WorkCreateWithoutCommentsInput!
+}
+
+input WorkUpsertWithoutFavouritesInput {
+  update: WorkUpdateWithoutFavouritesDataInput!
+  create: WorkCreateWithoutFavouritesInput!
+}
+
+input WorkUpsertWithoutImageDatasInput {
+  update: WorkUpdateWithoutImageDatasDataInput!
+  create: WorkCreateWithoutImageDatasInput!
+}
+
+input WorkUpsertWithoutLikesInput {
+  update: WorkUpdateWithoutLikesDataInput!
+  create: WorkCreateWithoutLikesInput!
+}
+
+input WorkUpsertWithoutReportsInput {
+  update: WorkUpdateWithoutReportsDataInput!
+  create: WorkCreateWithoutReportsInput!
+}
+
+input WorkUpsertWithoutVoiceDatasInput {
+  update: WorkUpdateWithoutVoiceDatasDataInput!
+  create: WorkCreateWithoutVoiceDatasInput!
+}
+
+input WorkUpsertWithWhereUniqueWithoutCategoryInput {
+  where: WorkWhereUniqueInput!
+  update: WorkUpdateWithoutCategoryDataInput!
+  create: WorkCreateWithoutCategoryInput!
+}
+
+input WorkUpsertWithWhereUniqueWithoutUserInput {
+  where: WorkWhereUniqueInput!
+  update: WorkUpdateWithoutUserDataInput!
+  create: WorkCreateWithoutUserInput!
+}
+
+input WorkWhereInput {
+  # Logical AND on all given filters.
+  AND: [WorkWhereInput!]
+  # Logical OR on all given filters.
+  OR: [WorkWhereInput!]
+  # Logical NOT on all given filters combined by AND.
+  NOT: [WorkWhereInput!]
+  id: ID
+  # All values that are not equal to given value.
+  id_not: ID
+  # All values that are contained in given list.
+  id_in: [ID!]
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+  # All values less than the given value.
+  id_lt: ID
+  # All values less than or equal the given value.
+  id_lte: ID
+  # All values greater than the given value.
+  id_gt: ID
+  # All values greater than or equal the given value.
+  id_gte: ID
+  # All values containing the given string.
+  id_contains: ID
+  # All values not containing the given string.
+  id_not_contains: ID
+  # All values starting with the given string.
+  id_starts_with: ID
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+  # All values ending with the given string.
+  id_ends_with: ID
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+  # All values that are not equal to given value.
+  name_not: String
+  # All values that are contained in given list.
+  name_in: [String!]
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+  # All values less than the given value.
+  name_lt: String
+  # All values less than or equal the given value.
+  name_lte: String
+  # All values greater than the given value.
+  name_gt: String
+  # All values greater than or equal the given value.
+  name_gte: String
+  # All values containing the given string.
+  name_contains: String
+  # All values not containing the given string.
+  name_not_contains: String
+  # All values starting with the given string.
+  name_starts_with: String
+  # All values not starting with the given string.
+  name_not_starts_with: String
+  # All values ending with the given string.
+  name_ends_with: String
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  description: String
+  # All values that are not equal to given value.
+  description_not: String
+  # All values that are contained in given list.
+  description_in: [String!]
+  # All values that are not contained in given list.
+  description_not_in: [String!]
+  # All values less than the given value.
+  description_lt: String
+  # All values less than or equal the given value.
+  description_lte: String
+  # All values greater than the given value.
+  description_gt: String
+  # All values greater than or equal the given value.
+  description_gte: String
+  # All values containing the given string.
+  description_contains: String
+  # All values not containing the given string.
+  description_not_contains: String
+  # All values starting with the given string.
+  description_starts_with: String
+  # All values not starting with the given string.
+  description_not_starts_with: String
+  # All values ending with the given string.
+  description_ends_with: String
+  # All values not ending with the given string.
+  description_not_ends_with: String
+  visibility: Boolean
+  # All values that are not equal to given value.
+  visibility_not: Boolean
+  views: Int
+  # All values that are not equal to given value.
+  views_not: Int
+  # All values that are contained in given list.
+  views_in: [Int!]
+  # All values that are not contained in given list.
+  views_not_in: [Int!]
+  # All values less than the given value.
+  views_lt: Int
+  # All values less than or equal the given value.
+  views_lte: Int
+  # All values greater than the given value.
+  views_gt: Int
+  # All values greater than or equal the given value.
+  views_gte: Int
+  usage: Int
+  # All values that are not equal to given value.
+  usage_not: Int
+  # All values that are contained in given list.
+  usage_in: [Int!]
+  # All values that are not contained in given list.
+  usage_not_in: [Int!]
+  # All values less than the given value.
+  usage_lt: Int
+  # All values less than or equal the given value.
+  usage_lte: Int
+  # All values greater than the given value.
+  usage_gt: Int
+  # All values greater than or equal the given value.
+  usage_gte: Int
+  createdAt: DateTime
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+  # All values less than the given value.
+  createdAt_lt: DateTime
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  user: UserWhereInput
+  category: CategoryWhereInput
+  imageDatas_every: ImageDataWhereInput
+  imageDatas_some: ImageDataWhereInput
+  imageDatas_none: ImageDataWhereInput
+  voiceDatas_every: VoiceDataWhereInput
+  voiceDatas_some: VoiceDataWhereInput
+  voiceDatas_none: VoiceDataWhereInput
+  likes_every: LikeWhereInput
+  likes_some: LikeWhereInput
+  likes_none: LikeWhereInput
+  favourites_every: FavouriteWhereInput
+  favourites_some: FavouriteWhereInput
+  favourites_none: FavouriteWhereInput
+  reports_every: ReportWhereInput
+  reports_some: ReportWhereInput
+  reports_none: ReportWhereInput
+  comments_every: CommentWhereInput
+  comments_some: CommentWhereInput
+  comments_none: CommentWhereInput
+}
+
+input WorkWhereUniqueInput {
+  id: ID
+}

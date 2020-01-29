@@ -1,6 +1,7 @@
-node_modules
 dist
-database.sqlite
-yarn.lock
 package-lock.json
-.vscode/settings.json
+node_modules
+.idea
+.vscode
+*.log
+.env*
