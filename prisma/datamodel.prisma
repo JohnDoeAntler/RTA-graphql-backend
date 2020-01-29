@@ -1,0 +1,135 @@
+enum Role {
+	ADMIN,
+	CARETAKER
+}
+
+type Work {
+	id: ID! @id
+
+	name: String!
+	description: String!
+	visibility: Boolean!
+	views: Int!
+	usage: Int!
+
+	user: User!
+	category: Category!
+
+	imageDatas: [ImageData!]!
+	voiceDatas: [VoiceData!]!
+	likes: [Like!]!
+	favourites: [Favourite!]!
+	reports: [Report!]!
+	comments: [Comment!]!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type User {
+	id: ID! @id
+	
+	name: String!
+	email: String! @unique
+	password: String!
+	imageUrl: String!
+
+	role: Role!
+
+	works: [Work!]!
+	likes: [Like!]!
+	favourites: [Favourite!]!
+	reports: [Report!]!
+	comments: [Comment!]!
+	following: [Follow!]! @relation(name: "Following")
+	followers: [Follow!]! @relation(name: "Followers")
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type ImageData {
+	id: ID! @id
+
+	fileUrl: String!
+
+	work: Work!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type VoiceData {
+	id: ID! @id
+
+	fileUrl: String!
+
+	work: Work!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type Like {
+	id: ID! @id
+
+	user: User!
+	work: Work!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type Favourite {
+	id: ID! @id
+
+	user: User!
+	work: Work!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type Report {
+	id: ID! @id
+
+	reason: String!
+
+	user: User!
+	work: Work!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type Comment {
+	id: ID! @id
+
+	content: String!
+
+	user: User!
+	work: Work!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type Follow {
+	id: ID! @id
+
+	following: User! @relation(name: "Following")
+	followers: User! @relation(name: "Followers")
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type Category {
+	id: ID! @id
+
+	name: String!
+	works: [Work!]!
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
