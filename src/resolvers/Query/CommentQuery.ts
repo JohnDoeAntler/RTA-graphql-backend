@@ -1,10 +1,7 @@
-import { Context } from '../../utils';
+import { forwardTo } from "prisma-binding";
 
 export const CommentQuery = {
-	comment: (parent, args, ctx: Context) => {
-		return ctx.prisma.comment(args);
-	},
-	comments: (parent, args, ctx: Context) => {
-		return ctx.prisma.comments(args);
-	},
+	comment: forwardTo('db'),
+	comments: forwardTo('db'),
+	commentsConnection: forwardTo('db'),
 }

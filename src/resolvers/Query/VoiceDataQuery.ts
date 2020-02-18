@@ -1,10 +1,7 @@
-import { Context } from '../../utils';
+import { forwardTo } from "prisma-binding";
 
 export const VoiceDataQuery = {
-	voiceData: (parent, args, ctx: Context) => {
-		return ctx.prisma.voiceData(args);
-	},
-	voiceDatas: (parent, args, ctx: Context) => {
-		return ctx.prisma.voiceDatas(args);
-	},
+	voiceData: forwardTo('db'),
+	voiceDatas: forwardTo('db'),
+	voiceDatasConnection: forwardTo('db'),
 }

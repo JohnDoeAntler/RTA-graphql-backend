@@ -1,29 +1,9 @@
-import { Context } from "../../utils";
+import { forwardTo } from "prisma-binding";
 
 export const ReportMutation = {
-	async createReport(parent, args, ctx: Context, info) {
-		return ctx.prisma.createReport(
-			args
-		);
-	},
-	async updateReport(parent, args, ctx: Context, info) {
-		return ctx.prisma.updateReport(
-			args
-		);
-	},
-	async updateManyReports(parent, args, ctx: Context, info) {
-		return ctx.prisma.updateManyReports(
-			args
-		);
-	},
-	async deleteReport(parent, args, ctx: Context, info) {
-		return ctx.prisma.deleteReport(
-			args
-		);
-	},
-	async deleteManyReports(parent, args, ctx: Context, info) {
-		return ctx.prisma.deleteManyReports(
-			args
-		)
-	}
+	createReport: forwardTo('db'),
+	updateReport: forwardTo('db'),
+	updateManyReports: forwardTo('db'),
+	deleteReport: forwardTo('db'),
+	deleteManyReports: forwardTo('db'),
 }
