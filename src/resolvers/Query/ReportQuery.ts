@@ -1,10 +1,7 @@
-import { Context } from '../../utils';
+import { forwardTo } from "prisma-binding";
 
 export const ReportQuery = {
-	report: (parent, args, ctx: Context) => {
-		return ctx.prisma.report(args);
-	},
-	reports: (parent, args, ctx: Context) => {
-		return ctx.prisma.reports(args);
-	},
+	report: forwardTo('db'),
+	reports: forwardTo('db'),
+	reportsConnection: forwardTo('db'),
 }

@@ -1,10 +1,7 @@
-import { Context } from '../../utils';
+import { forwardTo } from "prisma-binding";
 
 export const WorkQuery = {
-	work: (parent, args, ctx: Context) => {
-		return ctx.prisma.work(args);
-	},
-	works: (parent, args, ctx: Context) => {
-		return ctx.prisma.works(args);
-	},
+	work: forwardTo('db'),
+	works: forwardTo('db'),
+	worksConnection: forwardTo('db'),
 }

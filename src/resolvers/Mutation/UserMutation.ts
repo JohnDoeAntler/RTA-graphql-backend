@@ -1,29 +1,9 @@
-import { Context } from "../../utils";
+import { forwardTo } from "prisma-binding";
 
 export const UserMutation = {
-	async createUser(parent, args, ctx: Context, info) {
-		return ctx.prisma.createUser(
-			args
-		);
-	},
-	async updateUser(parent, args, ctx: Context, info) {
-		return ctx.prisma.updateUser(
-			args
-		);
-	},
-	async updateManyUsers(parent, args, ctx: Context, info) {
-		return ctx.prisma.updateManyUsers(
-			args
-		);
-	},
-	async deleteUser(parent, args, ctx: Context, info) {
-		return ctx.prisma.deleteUser(
-			args
-		);
-	},
-	async deleteManyUsers(parent, args, ctx: Context, info) {
-		return ctx.prisma.deleteManyUsers(
-			args
-		)
-	}
+	createUser: forwardTo('db'),
+	updateUser: forwardTo('db'),
+	updateManyUsers: forwardTo('db'),
+	deleteUser: forwardTo('db'),
+	deleteManyUsers: forwardTo('db'),
 }
