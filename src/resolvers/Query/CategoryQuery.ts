@@ -1,10 +1,7 @@
-import { Context } from '../../utils';
+import { forwardTo } from "prisma-binding";
 
 export const CategoryQuery = {
-	category: (parent, args, ctx: Context) => {
-		return ctx.prisma.category(args);
-	},
-	categorys: (parent, args, ctx: Context) => {
-		return ctx.prisma.categories(args);
-	},
+	category: forwardTo('db'),
+	categories: forwardTo('db'),
+	categoriesConnection: forwardTo('db'),
 }

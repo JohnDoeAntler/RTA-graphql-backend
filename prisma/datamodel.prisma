@@ -11,16 +11,17 @@ type Work {
 	visibility: Boolean!
 	views: Int!
 	usage: Int!
+	imageUrl: String!
 
-	user: User!
-	category: Category!
+	user: User! @relation(name: "UserWork", onDelete: SET_NULL)
+	category: Category! @relation(name: "CategoryWork", onDelete: SET_NULL)
 
-	imageDatas: [ImageData!]!
-	voiceDatas: [VoiceData!]!
-	likes: [Like!]!
-	favourites: [Favourite!]!
-	reports: [Report!]!
-	comments: [Comment!]!
+	imageDatas: [ImageData!]! @relation(name: "ImageData", onDelete: CASCADE)
+	voiceDatas: [VoiceData!]! @relation(name: "VoiceData", onDelete: CASCADE)
+	likedBy: [User!]! @relation(name: "Like", onDelete: SET_NULL)
+	favouritedBy: [User!]! @relation(name: "Favourite", onDelete: SET_NULL)
+	reports: [Report!]! @relation(name: "WorkReport", onDelete: CASCADE)
+	comments: [Comment!]! @relation(name: "WorkComment", onDelete: CASCADE)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -36,13 +37,12 @@ type User {
 
 	role: Role!
 
-	works: [Work!]!
-	likes: [Like!]!
-	favourites: [Favourite!]!
-	reports: [Report!]!
-	comments: [Comment!]!
-	following: [Follow!]! @relation(name: "Following")
-	followers: [Follow!]! @relation(name: "Followers")
+	works: [Work!]! @relation(name: "UserWork", onDelete: CASCADE)
+	liked: [Work!]! @relation(name: "Like", onDelete: SET_NULL)
+	favourited: [Work!]! @relation(name: "Favourite", onDelete: SET_NULL)
+	reports: [Report!]! @relation(name: "UserReport", onDelete: CASCADE)
+	comments: [Comment!]! @relation(name: "UserComment", onDelete: CASCADE)
+	following: [User!]! @relation(name: "UserFollowing", onDelete: SET_NULL)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -53,7 +53,7 @@ type ImageData {
 
 	fileUrl: String!
 
-	work: Work!
+	work: Work! @relation(name: "ImageData", onDelete: SET_NULL)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -64,27 +64,7 @@ type VoiceData {
 
 	fileUrl: String!
 
-	work: Work!
-
-	createdAt: DateTime! @createdAt
-	updatedAt: DateTime! @updatedAt
-}
-
-type Like {
-	id: ID! @id
-
-	user: User!
-	work: Work!
-
-	createdAt: DateTime! @createdAt
-	updatedAt: DateTime! @updatedAt
-}
-
-type Favourite {
-	id: ID! @id
-
-	user: User!
-	work: Work!
+	work: Work! @relation(name: "VoiceData", onDelete: SET_NULL)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -95,8 +75,8 @@ type Report {
 
 	reason: String!
 
-	user: User!
-	work: Work!
+	user: User! @relation(name: "UserReport", onDelete: SET_NULL)
+	work: Work! @relation(name: "WorkReport", onDelete: SET_NULL)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -107,18 +87,8 @@ type Comment {
 
 	content: String!
 
-	user: User!
-	work: Work!
-
-	createdAt: DateTime! @createdAt
-	updatedAt: DateTime! @updatedAt
-}
-
-type Follow {
-	id: ID! @id
-
-	following: User! @relation(name: "Following")
-	followers: User! @relation(name: "Followers")
+	user: User! @relation(name: "UserComment", onDelete: SET_NULL)
+	work: Work! @relation(name: "WorkComment", onDelete: SET_NULL)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -128,7 +98,7 @@ type Category {
 	id: ID! @id
 
 	name: String!
-	works: [Work!]!
+	works: [Work!]! @relation(name: "CategoryWork", onDelete: CASCADE)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt

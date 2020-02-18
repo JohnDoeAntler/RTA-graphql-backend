@@ -1,29 +1,9 @@
-import { Context } from "../../utils";
+import { forwardTo } from "prisma-binding";
 
 export const VoiceDataMutation = {
-	async createVoiceData(parent, args, ctx: Context, info) {
-		return ctx.prisma.createVoiceData(
-			args
-		);
-	},
-	async updateVoiceData(parent, args, ctx: Context, info) {
-		return ctx.prisma.updateVoiceData(
-			args
-		);
-	},
-	async updateManyVoiceDatas(parent, args, ctx: Context, info) {
-		return ctx.prisma.updateManyVoiceDatas(
-			args
-		);
-	},
-	async deleteVoiceData(parent, args, ctx: Context, info) {
-		return ctx.prisma.deleteVoiceData(
-			args
-		);
-	},
-	async deleteManyVoiceDatas(parent, args, ctx: Context, info) {
-		return ctx.prisma.deleteManyVoiceDatas(
-			args
-		)
-	}
+	createVoiceData: forwardTo('db'),
+	updateVoiceData: forwardTo('db'),
+	updateManyVoiceDatas: forwardTo('db'),
+	deleteVoiceData: forwardTo('db'),
+	deleteManyVoiceDatas: forwardTo('db'),
 }

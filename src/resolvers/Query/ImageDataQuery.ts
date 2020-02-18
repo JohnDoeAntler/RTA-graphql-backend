@@ -1,10 +1,7 @@
-import { Context } from '../../utils';
+import { forwardTo } from "prisma-binding";
 
 export const ImageDataQuery = {
-	imageData: (parent, args, ctx: Context) => {
-		return ctx.prisma.imageData(args);
-	},
-	imageDatas: (parent, args, ctx: Context) => {
-		return ctx.prisma.imageDatas(args);
-	},
+	imageData: forwardTo('db'),
+	imageDatas: forwardTo('db'),
+	imageDatasConnection: forwardTo('db'),
 }
