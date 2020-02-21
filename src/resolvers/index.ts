@@ -13,6 +13,8 @@ import { CommentQuery } from './Query/CommentQuery';
 import { CommentMutation } from './Mutation/CommentMutation';
 import { CategoryQuery } from './Query/CategoryQuery';
 import { CategoryMutation } from './Mutation/CategoryMutation';
+import { SynthesizationQuery } from './Query/SynthesizationQuery';
+import { SynthesizationMutation } from './Mutation/SynthesizationMutation';
 
 export default {
 	Query: {
@@ -23,6 +25,7 @@ export default {
 		...ReportQuery,
 		...CommentQuery,
 		...CategoryQuery,
+		...SynthesizationQuery,
 	},
 	Mutation: {
 		...auth,
@@ -33,5 +36,6 @@ export default {
 		...ReportMutation,
 		...CommentMutation,
 		...CategoryMutation,
+		...SynthesizationMutation,
 	},
 }
