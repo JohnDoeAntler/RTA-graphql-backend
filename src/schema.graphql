@@ -24,6 +24,10 @@ type AggregateReport {
   count: Int!
 }
 
+type AggregateSynthesization {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -709,6 +713,12 @@ type Mutation {
   upsertReport(where: ReportWhereUniqueInput!, create: ReportCreateInput!, update: ReportUpdateInput!): Report!
   deleteReport(where: ReportWhereUniqueInput!): Report
   deleteManyReports(where: ReportWhereInput): BatchPayload!
+  createSynthesization(data: SynthesizationCreateInput!): Synthesization!
+  updateSynthesization(data: SynthesizationUpdateInput!, where: SynthesizationWhereUniqueInput!): Synthesization
+  updateManySynthesizations(data: SynthesizationUpdateManyMutationInput!, where: SynthesizationWhereInput): BatchPayload!
+  upsertSynthesization(where: SynthesizationWhereUniqueInput!, create: SynthesizationCreateInput!, update: SynthesizationUpdateInput!): Synthesization!
+  deleteSynthesization(where: SynthesizationWhereUniqueInput!): Synthesization
+  deleteManySynthesizations(where: SynthesizationWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -759,6 +769,9 @@ type Query {
   report(where: ReportWhereUniqueInput!): Report
   reports(where: ReportWhereInput, orderBy: ReportOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Report]!
   reportsConnection(where: ReportWhereInput, orderBy: ReportOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReportConnection!
+  synthesization(where: SynthesizationWhereUniqueInput!): Synthesization
+  synthesizations(where: SynthesizationWhereInput, orderBy: SynthesizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Synthesization]!
+  synthesizationsConnection(where: SynthesizationWhereInput, orderBy: SynthesizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SynthesizationConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -1047,9 +1060,344 @@ type Subscription {
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
   imageData(where: ImageDataSubscriptionWhereInput): ImageDataSubscriptionPayload
   report(where: ReportSubscriptionWhereInput): ReportSubscriptionPayload
+  synthesization(where: SynthesizationSubscriptionWhereInput): SynthesizationSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   voiceData(where: VoiceDataSubscriptionWhereInput): VoiceDataSubscriptionPayload
   work(where: WorkSubscriptionWhereInput): WorkSubscriptionPayload
+}
+
+type Synthesization {
+  id: ID!
+  progress: Int!
+  source: String!
+  result: String!
+  user: User!
+  work: Work!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SynthesizationConnection {
+  pageInfo: PageInfo!
+  edges: [SynthesizationEdge]!
+  aggregate: AggregateSynthesization!
+}
+
+input SynthesizationCreateInput {
+  id: ID
+  progress: Int!
+  source: String!
+  result: String!
+  user: UserCreateOneWithoutSynthesizationsInput!
+  work: WorkCreateOneWithoutSynthesizationsInput!
+}
+
+input SynthesizationCreateManyWithoutUserInput {
+  create: [SynthesizationCreateWithoutUserInput!]
+  connect: [SynthesizationWhereUniqueInput!]
+}
+
+input SynthesizationCreateManyWithoutWorkInput {
+  create: [SynthesizationCreateWithoutWorkInput!]
+  connect: [SynthesizationWhereUniqueInput!]
+}
+
+input SynthesizationCreateWithoutUserInput {
+  id: ID
+  progress: Int!
+  source: String!
+  result: String!
+  work: WorkCreateOneWithoutSynthesizationsInput!
+}
+
+input SynthesizationCreateWithoutWorkInput {
+  id: ID
+  progress: Int!
+  source: String!
+  result: String!
+  user: UserCreateOneWithoutSynthesizationsInput!
+}
+
+type SynthesizationEdge {
+  node: Synthesization!
+  cursor: String!
+}
+
+enum SynthesizationOrderByInput {
+  id_ASC
+  id_DESC
+  progress_ASC
+  progress_DESC
+  source_ASC
+  source_DESC
+  result_ASC
+  result_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type SynthesizationPreviousValues {
+  id: ID!
+  progress: Int!
+  source: String!
+  result: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input SynthesizationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  progress: Int
+  progress_not: Int
+  progress_in: [Int!]
+  progress_not_in: [Int!]
+  progress_lt: Int
+  progress_lte: Int
+  progress_gt: Int
+  progress_gte: Int
+  source: String
+  source_not: String
+  source_in: [String!]
+  source_not_in: [String!]
+  source_lt: String
+  source_lte: String
+  source_gt: String
+  source_gte: String
+  source_contains: String
+  source_not_contains: String
+  source_starts_with: String
+  source_not_starts_with: String
+  source_ends_with: String
+  source_not_ends_with: String
+  result: String
+  result_not: String
+  result_in: [String!]
+  result_not_in: [String!]
+  result_lt: String
+  result_lte: String
+  result_gt: String
+  result_gte: String
+  result_contains: String
+  result_not_contains: String
+  result_starts_with: String
+  result_not_starts_with: String
+  result_ends_with: String
+  result_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [SynthesizationScalarWhereInput!]
+  OR: [SynthesizationScalarWhereInput!]
+  NOT: [SynthesizationScalarWhereInput!]
+}
+
+type SynthesizationSubscriptionPayload {
+  mutation: MutationType!
+  node: Synthesization
+  updatedFields: [String!]
+  previousValues: SynthesizationPreviousValues
+}
+
+input SynthesizationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SynthesizationWhereInput
+  AND: [SynthesizationSubscriptionWhereInput!]
+  OR: [SynthesizationSubscriptionWhereInput!]
+  NOT: [SynthesizationSubscriptionWhereInput!]
+}
+
+input SynthesizationUpdateInput {
+  progress: Int
+  source: String
+  result: String
+  user: UserUpdateOneRequiredWithoutSynthesizationsInput
+  work: WorkUpdateOneRequiredWithoutSynthesizationsInput
+}
+
+input SynthesizationUpdateManyDataInput {
+  progress: Int
+  source: String
+  result: String
+}
+
+input SynthesizationUpdateManyMutationInput {
+  progress: Int
+  source: String
+  result: String
+}
+
+input SynthesizationUpdateManyWithoutUserInput {
+  create: [SynthesizationCreateWithoutUserInput!]
+  delete: [SynthesizationWhereUniqueInput!]
+  connect: [SynthesizationWhereUniqueInput!]
+  set: [SynthesizationWhereUniqueInput!]
+  disconnect: [SynthesizationWhereUniqueInput!]
+  update: [SynthesizationUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [SynthesizationUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [SynthesizationScalarWhereInput!]
+  updateMany: [SynthesizationUpdateManyWithWhereNestedInput!]
+}
+
+input SynthesizationUpdateManyWithoutWorkInput {
+  create: [SynthesizationCreateWithoutWorkInput!]
+  delete: [SynthesizationWhereUniqueInput!]
+  connect: [SynthesizationWhereUniqueInput!]
+  set: [SynthesizationWhereUniqueInput!]
+  disconnect: [SynthesizationWhereUniqueInput!]
+  update: [SynthesizationUpdateWithWhereUniqueWithoutWorkInput!]
+  upsert: [SynthesizationUpsertWithWhereUniqueWithoutWorkInput!]
+  deleteMany: [SynthesizationScalarWhereInput!]
+  updateMany: [SynthesizationUpdateManyWithWhereNestedInput!]
+}
+
+input SynthesizationUpdateManyWithWhereNestedInput {
+  where: SynthesizationScalarWhereInput!
+  data: SynthesizationUpdateManyDataInput!
+}
+
+input SynthesizationUpdateWithoutUserDataInput {
+  progress: Int
+  source: String
+  result: String
+  work: WorkUpdateOneRequiredWithoutSynthesizationsInput
+}
+
+input SynthesizationUpdateWithoutWorkDataInput {
+  progress: Int
+  source: String
+  result: String
+  user: UserUpdateOneRequiredWithoutSynthesizationsInput
+}
+
+input SynthesizationUpdateWithWhereUniqueWithoutUserInput {
+  where: SynthesizationWhereUniqueInput!
+  data: SynthesizationUpdateWithoutUserDataInput!
+}
+
+input SynthesizationUpdateWithWhereUniqueWithoutWorkInput {
+  where: SynthesizationWhereUniqueInput!
+  data: SynthesizationUpdateWithoutWorkDataInput!
+}
+
+input SynthesizationUpsertWithWhereUniqueWithoutUserInput {
+  where: SynthesizationWhereUniqueInput!
+  update: SynthesizationUpdateWithoutUserDataInput!
+  create: SynthesizationCreateWithoutUserInput!
+}
+
+input SynthesizationUpsertWithWhereUniqueWithoutWorkInput {
+  where: SynthesizationWhereUniqueInput!
+  update: SynthesizationUpdateWithoutWorkDataInput!
+  create: SynthesizationCreateWithoutWorkInput!
+}
+
+input SynthesizationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  progress: Int
+  progress_not: Int
+  progress_in: [Int!]
+  progress_not_in: [Int!]
+  progress_lt: Int
+  progress_lte: Int
+  progress_gt: Int
+  progress_gte: Int
+  source: String
+  source_not: String
+  source_in: [String!]
+  source_not_in: [String!]
+  source_lt: String
+  source_lte: String
+  source_gt: String
+  source_gte: String
+  source_contains: String
+  source_not_contains: String
+  source_starts_with: String
+  source_not_starts_with: String
+  source_ends_with: String
+  source_not_ends_with: String
+  result: String
+  result_not: String
+  result_in: [String!]
+  result_not_in: [String!]
+  result_lt: String
+  result_lte: String
+  result_gt: String
+  result_gte: String
+  result_contains: String
+  result_not_contains: String
+  result_starts_with: String
+  result_not_starts_with: String
+  result_ends_with: String
+  result_not_ends_with: String
+  user: UserWhereInput
+  work: WorkWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [SynthesizationWhereInput!]
+  OR: [SynthesizationWhereInput!]
+  NOT: [SynthesizationWhereInput!]
+}
+
+input SynthesizationWhereUniqueInput {
+  id: ID
 }
 
 type User {
@@ -1064,6 +1412,7 @@ type User {
   reports(where: ReportWhereInput, orderBy: ReportOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Report!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   following(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  synthesizations(where: SynthesizationWhereInput, orderBy: SynthesizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Synthesization!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1087,6 +1436,7 @@ input UserCreateInput {
   reports: ReportCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
   following: UserCreateManyWithoutFollowingInput
+  synthesizations: SynthesizationCreateManyWithoutUserInput
 }
 
 input UserCreateManyWithoutFavouritedInput {
@@ -1114,6 +1464,11 @@ input UserCreateOneWithoutReportsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutSynthesizationsInput {
+  create: UserCreateWithoutSynthesizationsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateOneWithoutWorksInput {
   create: UserCreateWithoutWorksInput
   connect: UserWhereUniqueInput
@@ -1131,6 +1486,7 @@ input UserCreateWithoutCommentsInput {
   favourited: WorkCreateManyWithoutFavouritedByInput
   reports: ReportCreateManyWithoutUserInput
   following: UserCreateManyWithoutFollowingInput
+  synthesizations: SynthesizationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutFavouritedInput {
@@ -1145,6 +1501,7 @@ input UserCreateWithoutFavouritedInput {
   reports: ReportCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
   following: UserCreateManyWithoutFollowingInput
+  synthesizations: SynthesizationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutFollowingInput {
@@ -1159,6 +1516,7 @@ input UserCreateWithoutFollowingInput {
   favourited: WorkCreateManyWithoutFavouritedByInput
   reports: ReportCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
+  synthesizations: SynthesizationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutLikedInput {
@@ -1173,6 +1531,7 @@ input UserCreateWithoutLikedInput {
   reports: ReportCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
   following: UserCreateManyWithoutFollowingInput
+  synthesizations: SynthesizationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutReportsInput {
@@ -1185,6 +1544,22 @@ input UserCreateWithoutReportsInput {
   works: WorkCreateManyWithoutUserInput
   liked: WorkCreateManyWithoutLikedByInput
   favourited: WorkCreateManyWithoutFavouritedByInput
+  comments: CommentCreateManyWithoutUserInput
+  following: UserCreateManyWithoutFollowingInput
+  synthesizations: SynthesizationCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutSynthesizationsInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  imageUrl: String!
+  role: Role!
+  works: WorkCreateManyWithoutUserInput
+  liked: WorkCreateManyWithoutLikedByInput
+  favourited: WorkCreateManyWithoutFavouritedByInput
+  reports: ReportCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
   following: UserCreateManyWithoutFollowingInput
 }
@@ -1201,6 +1576,7 @@ input UserCreateWithoutWorksInput {
   reports: ReportCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
   following: UserCreateManyWithoutFollowingInput
+  synthesizations: SynthesizationCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -1364,6 +1740,7 @@ input UserUpdateInput {
   reports: ReportUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
   following: UserUpdateManyWithoutFollowingInput
+  synthesizations: SynthesizationUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyDataInput {
@@ -1437,6 +1814,13 @@ input UserUpdateOneRequiredWithoutReportsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateOneRequiredWithoutSynthesizationsInput {
+  create: UserCreateWithoutSynthesizationsInput
+  update: UserUpdateWithoutSynthesizationsDataInput
+  upsert: UserUpsertWithoutSynthesizationsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneRequiredWithoutWorksInput {
   create: UserCreateWithoutWorksInput
   update: UserUpdateWithoutWorksDataInput
@@ -1455,6 +1839,7 @@ input UserUpdateWithoutCommentsDataInput {
   favourited: WorkUpdateManyWithoutFavouritedByInput
   reports: ReportUpdateManyWithoutUserInput
   following: UserUpdateManyWithoutFollowingInput
+  synthesizations: SynthesizationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutFavouritedDataInput {
@@ -1468,6 +1853,7 @@ input UserUpdateWithoutFavouritedDataInput {
   reports: ReportUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
   following: UserUpdateManyWithoutFollowingInput
+  synthesizations: SynthesizationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutFollowingDataInput {
@@ -1481,6 +1867,7 @@ input UserUpdateWithoutFollowingDataInput {
   favourited: WorkUpdateManyWithoutFavouritedByInput
   reports: ReportUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
+  synthesizations: SynthesizationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutLikedDataInput {
@@ -1494,6 +1881,7 @@ input UserUpdateWithoutLikedDataInput {
   reports: ReportUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
   following: UserUpdateManyWithoutFollowingInput
+  synthesizations: SynthesizationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutReportsDataInput {
@@ -1505,6 +1893,21 @@ input UserUpdateWithoutReportsDataInput {
   works: WorkUpdateManyWithoutUserInput
   liked: WorkUpdateManyWithoutLikedByInput
   favourited: WorkUpdateManyWithoutFavouritedByInput
+  comments: CommentUpdateManyWithoutUserInput
+  following: UserUpdateManyWithoutFollowingInput
+  synthesizations: SynthesizationUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutSynthesizationsDataInput {
+  name: String
+  email: String
+  password: String
+  imageUrl: String
+  role: Role
+  works: WorkUpdateManyWithoutUserInput
+  liked: WorkUpdateManyWithoutLikedByInput
+  favourited: WorkUpdateManyWithoutFavouritedByInput
+  reports: ReportUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
   following: UserUpdateManyWithoutFollowingInput
 }
@@ -1520,6 +1923,7 @@ input UserUpdateWithoutWorksDataInput {
   reports: ReportUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
   following: UserUpdateManyWithoutFollowingInput
+  synthesizations: SynthesizationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithWhereUniqueWithoutFavouritedInput {
@@ -1545,6 +1949,11 @@ input UserUpsertWithoutCommentsInput {
 input UserUpsertWithoutReportsInput {
   update: UserUpdateWithoutReportsDataInput!
   create: UserCreateWithoutReportsInput!
+}
+
+input UserUpsertWithoutSynthesizationsInput {
+  update: UserUpdateWithoutSynthesizationsDataInput!
+  create: UserCreateWithoutSynthesizationsInput!
 }
 
 input UserUpsertWithoutWorksInput {
@@ -1663,6 +2072,9 @@ input UserWhereInput {
   following_every: UserWhereInput
   following_some: UserWhereInput
   following_none: UserWhereInput
+  synthesizations_every: SynthesizationWhereInput
+  synthesizations_some: SynthesizationWhereInput
+  synthesizations_none: SynthesizationWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -1926,6 +2338,7 @@ type Work {
   favouritedBy(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   reports(where: ReportWhereInput, orderBy: ReportOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Report!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  synthesizations(where: SynthesizationWhereInput, orderBy: SynthesizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Synthesization!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1952,6 +2365,7 @@ input WorkCreateInput {
   favouritedBy: UserCreateManyWithoutFavouritedInput
   reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 input WorkCreateManyWithoutCategoryInput {
@@ -1989,6 +2403,11 @@ input WorkCreateOneWithoutReportsInput {
   connect: WorkWhereUniqueInput
 }
 
+input WorkCreateOneWithoutSynthesizationsInput {
+  create: WorkCreateWithoutSynthesizationsInput
+  connect: WorkWhereUniqueInput
+}
+
 input WorkCreateOneWithoutVoiceDatasInput {
   create: WorkCreateWithoutVoiceDatasInput
   connect: WorkWhereUniqueInput
@@ -2009,6 +2428,7 @@ input WorkCreateWithoutCategoryInput {
   favouritedBy: UserCreateManyWithoutFavouritedInput
   reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 input WorkCreateWithoutCommentsInput {
@@ -2026,6 +2446,7 @@ input WorkCreateWithoutCommentsInput {
   likedBy: UserCreateManyWithoutLikedInput
   favouritedBy: UserCreateManyWithoutFavouritedInput
   reports: ReportCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 input WorkCreateWithoutFavouritedByInput {
@@ -2043,6 +2464,7 @@ input WorkCreateWithoutFavouritedByInput {
   likedBy: UserCreateManyWithoutLikedInput
   reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 input WorkCreateWithoutImageDatasInput {
@@ -2060,6 +2482,7 @@ input WorkCreateWithoutImageDatasInput {
   favouritedBy: UserCreateManyWithoutFavouritedInput
   reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 input WorkCreateWithoutLikedByInput {
@@ -2077,6 +2500,7 @@ input WorkCreateWithoutLikedByInput {
   favouritedBy: UserCreateManyWithoutFavouritedInput
   reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 input WorkCreateWithoutReportsInput {
@@ -2093,6 +2517,25 @@ input WorkCreateWithoutReportsInput {
   voiceDatas: VoiceDataCreateManyWithoutWorkInput
   likedBy: UserCreateManyWithoutLikedInput
   favouritedBy: UserCreateManyWithoutFavouritedInput
+  comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
+}
+
+input WorkCreateWithoutSynthesizationsInput {
+  id: ID
+  name: String!
+  description: String!
+  visibility: Boolean!
+  views: Int!
+  usage: Int!
+  imageUrl: String!
+  user: UserCreateOneWithoutWorksInput!
+  category: CategoryCreateOneWithoutWorksInput!
+  imageDatas: ImageDataCreateManyWithoutWorkInput
+  voiceDatas: VoiceDataCreateManyWithoutWorkInput
+  likedBy: UserCreateManyWithoutLikedInput
+  favouritedBy: UserCreateManyWithoutFavouritedInput
+  reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
 }
 
@@ -2111,6 +2554,7 @@ input WorkCreateWithoutUserInput {
   favouritedBy: UserCreateManyWithoutFavouritedInput
   reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 input WorkCreateWithoutVoiceDatasInput {
@@ -2128,6 +2572,7 @@ input WorkCreateWithoutVoiceDatasInput {
   favouritedBy: UserCreateManyWithoutFavouritedInput
   reports: ReportCreateManyWithoutWorkInput
   comments: CommentCreateManyWithoutWorkInput
+  synthesizations: SynthesizationCreateManyWithoutWorkInput
 }
 
 type WorkEdge {
@@ -2297,6 +2742,7 @@ input WorkUpdateInput {
   favouritedBy: UserUpdateManyWithoutFavouritedInput
   reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateManyDataInput {
@@ -2391,6 +2837,13 @@ input WorkUpdateOneRequiredWithoutReportsInput {
   connect: WorkWhereUniqueInput
 }
 
+input WorkUpdateOneRequiredWithoutSynthesizationsInput {
+  create: WorkCreateWithoutSynthesizationsInput
+  update: WorkUpdateWithoutSynthesizationsDataInput
+  upsert: WorkUpsertWithoutSynthesizationsInput
+  connect: WorkWhereUniqueInput
+}
+
 input WorkUpdateOneRequiredWithoutVoiceDatasInput {
   create: WorkCreateWithoutVoiceDatasInput
   update: WorkUpdateWithoutVoiceDatasDataInput
@@ -2412,6 +2865,7 @@ input WorkUpdateWithoutCategoryDataInput {
   favouritedBy: UserUpdateManyWithoutFavouritedInput
   reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateWithoutCommentsDataInput {
@@ -2428,6 +2882,7 @@ input WorkUpdateWithoutCommentsDataInput {
   likedBy: UserUpdateManyWithoutLikedInput
   favouritedBy: UserUpdateManyWithoutFavouritedInput
   reports: ReportUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateWithoutFavouritedByDataInput {
@@ -2444,6 +2899,7 @@ input WorkUpdateWithoutFavouritedByDataInput {
   likedBy: UserUpdateManyWithoutLikedInput
   reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateWithoutImageDatasDataInput {
@@ -2460,6 +2916,7 @@ input WorkUpdateWithoutImageDatasDataInput {
   favouritedBy: UserUpdateManyWithoutFavouritedInput
   reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateWithoutLikedByDataInput {
@@ -2476,6 +2933,7 @@ input WorkUpdateWithoutLikedByDataInput {
   favouritedBy: UserUpdateManyWithoutFavouritedInput
   reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateWithoutReportsDataInput {
@@ -2491,6 +2949,24 @@ input WorkUpdateWithoutReportsDataInput {
   voiceDatas: VoiceDataUpdateManyWithoutWorkInput
   likedBy: UserUpdateManyWithoutLikedInput
   favouritedBy: UserUpdateManyWithoutFavouritedInput
+  comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
+}
+
+input WorkUpdateWithoutSynthesizationsDataInput {
+  name: String
+  description: String
+  visibility: Boolean
+  views: Int
+  usage: Int
+  imageUrl: String
+  user: UserUpdateOneRequiredWithoutWorksInput
+  category: CategoryUpdateOneRequiredWithoutWorksInput
+  imageDatas: ImageDataUpdateManyWithoutWorkInput
+  voiceDatas: VoiceDataUpdateManyWithoutWorkInput
+  likedBy: UserUpdateManyWithoutLikedInput
+  favouritedBy: UserUpdateManyWithoutFavouritedInput
+  reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
 }
 
@@ -2508,6 +2984,7 @@ input WorkUpdateWithoutUserDataInput {
   favouritedBy: UserUpdateManyWithoutFavouritedInput
   reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateWithoutVoiceDatasDataInput {
@@ -2524,6 +3001,7 @@ input WorkUpdateWithoutVoiceDatasDataInput {
   favouritedBy: UserUpdateManyWithoutFavouritedInput
   reports: ReportUpdateManyWithoutWorkInput
   comments: CommentUpdateManyWithoutWorkInput
+  synthesizations: SynthesizationUpdateManyWithoutWorkInput
 }
 
 input WorkUpdateWithWhereUniqueWithoutCategoryInput {
@@ -2559,6 +3037,11 @@ input WorkUpsertWithoutImageDatasInput {
 input WorkUpsertWithoutReportsInput {
   update: WorkUpdateWithoutReportsDataInput!
   create: WorkCreateWithoutReportsInput!
+}
+
+input WorkUpsertWithoutSynthesizationsInput {
+  update: WorkUpdateWithoutSynthesizationsDataInput!
+  create: WorkCreateWithoutSynthesizationsInput!
 }
 
 input WorkUpsertWithoutVoiceDatasInput {
@@ -2685,6 +3168,9 @@ input WorkWhereInput {
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
+  synthesizations_every: SynthesizationWhereInput
+  synthesizations_some: SynthesizationWhereInput
+  synthesizations_none: SynthesizationWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]

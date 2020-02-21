@@ -22,6 +22,7 @@ type Work {
 	favouritedBy: [User!]! @relation(name: "Favourite", onDelete: SET_NULL)
 	reports: [Report!]! @relation(name: "WorkReport", onDelete: CASCADE)
 	comments: [Comment!]! @relation(name: "WorkComment", onDelete: CASCADE)
+	synthesizations: [Synthesization!]! @relation(name: "WorkSynthesization", onDelete: CASCADE)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -43,6 +44,7 @@ type User {
 	reports: [Report!]! @relation(name: "UserReport", onDelete: CASCADE)
 	comments: [Comment!]! @relation(name: "UserComment", onDelete: CASCADE)
 	following: [User!]! @relation(name: "UserFollowing", onDelete: SET_NULL)
+	synthesizations: [Synthesization!]! @relation(name: "UserSynthesization", onDelete: CASCADE)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
@@ -99,6 +101,21 @@ type Category {
 
 	name: String!
 	works: [Work!]! @relation(name: "CategoryWork", onDelete: CASCADE)
+
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
+
+type Synthesization {
+	id: ID! @id
+
+	progress: Int!
+
+	source: String!
+	result: String!
+	
+	user: User! @relation(name: "UserSynthesization", onDelete: SET_NULL)
+	work: Work! @relation(name: "WorkSynthesization", onDelete: SET_NULL)
 
 	createdAt: DateTime! @createdAt
 	updatedAt: DateTime! @updatedAt
