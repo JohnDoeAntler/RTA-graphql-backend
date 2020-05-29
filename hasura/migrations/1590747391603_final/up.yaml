@@ -1,0 +1,526 @@
+- args:
+    tables:
+    - delete_permissions:
+      - permission:
+          filter:
+            work:
+              userId:
+                _eq: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            work:
+              userId:
+                _eq: X-Hasura-User-Id
+          columns:
+          - fileUrl
+          - workId
+        role: caretaker
+      object_relationships:
+      - name: work
+        using:
+          foreign_key_constraint_on: workId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - fileUrl
+          - created_at
+          - updated_at
+          - id
+          - workId
+          filter:
+            work:
+              userId:
+                _eq: X-Hasura-User-Id
+        role: caretaker
+      table:
+        name: audio_datas
+        schema: public
+    - delete_permissions:
+      - permission:
+          filter:
+            userId:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            userId:
+              _eq: X-Hasura-User-Id
+          columns:
+          - content
+          - workId
+          set:
+            userId: x-hasura-User-Id
+        role: caretaker
+      object_relationships:
+      - name: user
+        using:
+          foreign_key_constraint_on: userId
+      - name: work
+        using:
+          foreign_key_constraint_on: workId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - content
+          - userId
+          - created_at
+          - updated_at
+          - id
+          - workId
+          filter: {}
+        role: caretaker
+      table:
+        name: comments
+        schema: public
+    - delete_permissions:
+      - permission:
+          filter:
+            userId:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            userId:
+              _eq: X-Hasura-User-Id
+          columns:
+          - workId
+          set:
+            userId: x-hasura-User-Id
+        role: caretaker
+      object_relationships:
+      - name: user
+        using:
+          foreign_key_constraint_on: userId
+      - name: work
+        using:
+          foreign_key_constraint_on: workId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - created_at
+          - id
+          - userId
+          - workId
+          filter: {}
+        role: caretaker
+      table:
+        name: favourites
+        schema: public
+    - delete_permissions:
+      - permission:
+          filter:
+            followerId:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            _and:
+            - followerId:
+                _eq: X-Hasura-User-Id
+            - followingId:
+                _ne: X-Hasura-User-Id
+          columns:
+          - followingId
+          set:
+            followerId: x-hasura-User-Id
+        role: caretaker
+      object_relationships:
+      - name: follower
+        using:
+          foreign_key_constraint_on: followerId
+      - name: following
+        using:
+          foreign_key_constraint_on: followingId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - followerId
+          - followingId
+          - created_at
+          - updated_at
+          - id
+          filter: {}
+        role: caretaker
+      table:
+        name: followings
+        schema: public
+    - delete_permissions:
+      - permission:
+          filter:
+            work:
+              userId:
+                _eq: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            work:
+              userId:
+                _eq: X-Hasura-User-Id
+          columns:
+          - fileUrl
+          - workId
+        role: caretaker
+      object_relationships:
+      - name: work
+        using:
+          foreign_key_constraint_on: workId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - fileUrl
+          - created_at
+          - updated_at
+          - id
+          - workId
+          filter:
+            work:
+              userId:
+                _eq: X-Hasura-User-Id
+        role: caretaker
+      table:
+        name: image_datas
+        schema: public
+    - delete_permissions:
+      - permission:
+          filter:
+            userId:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            userId:
+              _eq: X-Hasura-User-Id
+          columns:
+          - workId
+          set:
+            userId: x-hasura-User-Id
+        role: caretaker
+      object_relationships:
+      - name: user
+        using:
+          foreign_key_constraint_on: userId
+      - name: work
+        using:
+          foreign_key_constraint_on: workId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - created_at
+          - id
+          - userId
+          - workId
+          filter: {}
+        role: caretaker
+      table:
+        name: likes
+        schema: public
+    - object_relationships:
+      - name: user
+        using:
+          foreign_key_constraint_on: userId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - content
+          - created_at
+          - id
+          - updated_at
+          - userId
+          filter:
+            userId:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+      table:
+        name: notifications
+        schema: public
+    - object_relationships:
+      - name: user
+        using:
+          foreign_key_constraint_on: userId
+      - name: work
+        using:
+          foreign_key_constraint_on: workId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - created_at
+          - drivingVideoUrl
+          - id
+          - isProcessing
+          - progress
+          - resultUrl
+          - updated_at
+          - userId
+          - workId
+          filter:
+            userId:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+      table:
+        name: progresses
+        schema: public
+    - delete_permissions:
+      - permission:
+          filter:
+            _and:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - work:
+                userId:
+                  _ne: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            _and:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - work:
+                userId:
+                  _ne: X-Hasura-User-Id
+          columns:
+          - reason
+          - workId
+          set:
+            userId: x-hasura-User-Id
+        role: caretaker
+      object_relationships:
+      - name: user
+        using:
+          foreign_key_constraint_on: userId
+      - name: work
+        using:
+          foreign_key_constraint_on: workId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - reason
+          - userId
+          - created_at
+          - updated_at
+          - id
+          - workId
+          filter:
+            _or:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - work:
+                userId:
+                  _eq: X-Hasura-User-Id
+        role: caretaker
+      table:
+        name: reports
+        schema: public
+    - array_relationships:
+      - name: comments
+        using:
+          manual_configuration:
+            column_mapping:
+              id: userId
+            remote_table:
+              name: comments
+              schema: public
+      - name: favourites
+        using:
+          foreign_key_constraint_on:
+            column: userId
+            table:
+              name: favourites
+              schema: public
+      - name: followers
+        using:
+          foreign_key_constraint_on:
+            column: followingId
+            table:
+              name: followings
+              schema: public
+      - name: followings
+        using:
+          foreign_key_constraint_on:
+            column: followerId
+            table:
+              name: followings
+              schema: public
+      - name: likes
+        using:
+          foreign_key_constraint_on:
+            column: userId
+            table:
+              name: likes
+              schema: public
+      - name: notifications
+        using:
+          foreign_key_constraint_on:
+            column: userId
+            table:
+              name: notifications
+              schema: public
+      - name: progresses
+        using:
+          foreign_key_constraint_on:
+            column: userId
+            table:
+              name: progresses
+              schema: public
+      - name: reports
+        using:
+          manual_configuration:
+            column_mapping:
+              id: userId
+            remote_table:
+              name: reports
+              schema: public
+      - name: works
+        using:
+          manual_configuration:
+            column_mapping:
+              id: userId
+            remote_table:
+              name: works
+              schema: public
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - id
+          - imageUrl
+          - name
+          - created_at
+          - updated_at
+          filter: {}
+        role: caretaker
+      table:
+        name: users
+        schema: public
+      update_permissions:
+      - permission:
+          columns:
+          - imageUrl
+          - name
+          filter:
+            id:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+    - array_relationships:
+      - name: comments
+        using:
+          manual_configuration:
+            column_mapping:
+              id: workId
+            remote_table:
+              name: comments
+              schema: public
+      - name: favourites
+        using:
+          foreign_key_constraint_on:
+            column: workId
+            table:
+              name: favourites
+              schema: public
+      - name: image_datas
+        using:
+          manual_configuration:
+            column_mapping:
+              id: workId
+            remote_table:
+              name: image_datas
+              schema: public
+      - name: likes
+        using:
+          foreign_key_constraint_on:
+            column: workId
+            table:
+              name: likes
+              schema: public
+      - name: reports
+        using:
+          manual_configuration:
+            column_mapping:
+              id: workId
+            remote_table:
+              name: reports
+              schema: public
+      - name: voice_datas
+        using:
+          manual_configuration:
+            column_mapping:
+              id: workId
+            remote_table:
+              name: audio_datas
+              schema: public
+      delete_permissions:
+      - permission:
+          filter:
+            userId:
+              _eq: X-Hasura-User-Id
+        role: caretaker
+      insert_permissions:
+      - permission:
+          check:
+            userId:
+              _eq: X-Hasura-User-Id
+          columns:
+          - description
+          - imageUrl
+          - name
+          - visibility
+          set:
+            userId: x-hasura-User-Id
+        role: caretaker
+      object_relationships:
+      - name: user
+        using:
+          foreign_key_constraint_on: userId
+      select_permissions:
+      - permission:
+          allow_aggregations: true
+          columns:
+          - visibility
+          - usage
+          - views
+          - description
+          - imageUrl
+          - name
+          - userId
+          - created_at
+          - updated_at
+          - id
+          filter:
+            _or:
+            - userId:
+                _eq: X-Hasura-User-Id
+            - visibility:
+                _eq: true
+        role: caretaker
+      table:
+        name: works
+        schema: public
+      update_permissions:
+      - permission:
+          columns:
+          - description
+          - imageUrl
+          - name
+          - usage
+          - views
+          - visibility
+          filter: {}
+        role: caretaker
+    version: 2
+  type: replace_metadata
